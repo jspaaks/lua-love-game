@@ -1,0 +1,25 @@
+---@class ExitButton # The exit button.
+ExitButton = {
+    ---@type number[] # RGBA brightness
+    color = {255 / 255, 0 / 255, 128 / 255, 255 / 255},
+    ---@type number # radius
+    radius = 50,
+    ---@type number # horizontal position
+    from_right = 100,
+    ---@type number # vertical position
+    from_top = 100
+}
+
+---@return ExitButton
+function ExitButton:new()
+    assert(self ~= nil, "Wrong signature for call to ExitButton:new")
+    local mt = { __index = ExitButton }
+    return setmetatable({}, mt)
+end
+
+function ExitButton:draw()
+    assert(self ~= nil, "Wrong signature for call to ExitButton:draw")
+    local width, _ = love.graphics.getDimensions()
+    love.graphics.setColor(self.color)
+    love.graphics.circle("fill", width - self.from_right, self.from_top, self.radius)
+end
