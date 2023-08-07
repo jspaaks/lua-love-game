@@ -3,11 +3,13 @@ ExitButton = {
     ---@type number[] # RGBA brightness
     color = {255 / 255, 0 / 255, 128 / 255, 255 / 255},
     ---@type number # radius
-    radius = 50,
+    radius = 20,
+    ---@type number # radius squared
+    radius2 = 400,
     ---@type number # horizontal position
     from_right = 100,
     ---@type number # vertical position
-    from_top = 100
+    from_top = 70
 }
 
 ---@return ExitButton

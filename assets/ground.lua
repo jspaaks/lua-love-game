@@ -20,9 +20,11 @@ function Ground:new(thickness)
     return setmetatable(members, mt)
 end
 
+---@return Ground
 function Ground:draw()
     assert(self ~= nil, "Wrong signature for call to Ground:draw")
     local width, height = love.graphics.getDimensions()
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", 0, height - self.thickness, width, height)
+    return self
 end

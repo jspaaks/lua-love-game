@@ -15,14 +15,14 @@ Balloon = {
 }
 
 ---@return Balloon
-function Balloon:new(u, v, x0, y0)
+function Balloon:new(u, v, x, y)
     assert(self ~= nil, "Wrong signature for call to Balloon:new")
     local mt = { __index = Balloon }
     local members = {
         u = u,
         v = v,
-        x = x0,
-        y = y0
+        x = x,
+        y = y
     }
     return setmetatable(members, mt)
 end

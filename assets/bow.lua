@@ -6,6 +6,8 @@ Bow = {
     y = nil
 }
 
+---@param x number # horizontal position of the bow
+---@param y number # vertical position of the bow
 ---@return Bow
 function Bow:new(x, y)
     assert(self ~= nil, "Wrong signature for call to Bow:new")
@@ -17,8 +19,10 @@ function Bow:new(x, y)
     return setmetatable(members, mt)
 end
 
+---@return Bow
 function Bow:draw()
     assert(self ~= nil, "Wrong signature for call to Bow:draw")
     love.graphics.setColor(0, 255, 0, 255)
     love.graphics.circle("fill", self.x, self.y, 4)
+    return self
 end
