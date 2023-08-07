@@ -1,7 +1,7 @@
 ---@class ExitButton # The exit button.
 ExitButton = {
     ---@type number[] # RGBA brightness
-    color = {255 / 255, 0 / 255, 128 / 255, 255 / 255},
+    color = {23 / 255, 113 / 255, 179 / 255, 255 / 255},
     ---@type number # radius
     radius = 20,
     ---@type number # radius squared
