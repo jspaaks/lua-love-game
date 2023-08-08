@@ -1,29 +1,21 @@
 ---@class Arrows # The collection of arrows.
 Arrows = {
-    ---@type number | nil # how fast arrows are spawning
-    spawn_rate = nil,
-    ---@type number | nil # where arrows are spawning (x)
-    spawn_x = nil,
-    ---@type number | nil # where arrows are spawning (y)
-    spawn_y = nil
+    ---@type string # class name
+    __name__ = "Arrows",
+    ---@type Bow | nil # where arrows are spawning
+    bow = nil
 }
 
 
----@param spawn_x number # where arrows are spawning (x)
----@param spawn_y number # where arrows are spawning (y)
----@param spawn_rate number # how fast arrows are spawning
+---@param bow Bow # reference to Bow object
 ---@return Arrows
-function Arrows:new(spawn_x, spawn_y, spawn_rate)
+function Arrows:new(bow)
     local cond = self ~= nil and
-                 type(spawn_rate) == "number" and
-                 type(spawn_x) == "number" and
-                 type(spawn_y) == "number"
+                 bow.__name__ == "Bow"
     assert(cond, "Wrong signature for call to Arrows:new")
     local mt = { __index = Arrows }
     local members = {
-        spawn_rate = spawn_rate,
-        spawn_x = spawn_x,
-        spawn_y = spawn_y
+        bow = bow
     }
     return setmetatable(members, mt)
 end
@@ -37,22 +29,31 @@ function Arrows:draw()
     return self
 end
 
+---@return Arrows
+function Arrows:remove_all()
+    assert(self ~= nil, "Wrong signature for call to Arrows:remove_all")
+    for _, arrow in ipairs(self) do
+        arrow.alive = false
+    end
+    return self
+end
+
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Arrows
 function Arrows:update(dt)
     local cond = self ~= nil and type(dt) == "number"
     assert(cond, "Wrong signature for call to Arrows:update")
-    if math.random() < self.spawn_rate * dt then
-        local arrow = Arrow:new(70, -50, self.spawn_x, self.spawn_y)
+    if State.keypressed["space"] then
+        local arrow = Arrow:new(State.bow.x, State.bow.y, 280, -50)
         table.insert(self, arrow)
-    end
-    for _, arrow in ipairs(self) do
-        arrow:update(dt)
+        State.sounds["shot"]:clone():play()
     end
     for i, arrow in ipairs(self) do
+        arrow:update(dt)
         if not arrow.alive then
             table.remove(self, i)
         end
     end
     return self
 end
+

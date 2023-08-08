@@ -1,11 +1,15 @@
 ---@class Arrow # The arrow.
 Arrow = {
+    ---@type string # class name
+    __name__ = "Arrow",
     ---@type number # How old the arrow is
     age = nil,
     ---@type boolean # Whether the arrow is still alive
     alive = true,
     ---@type number[] # RGBA brightness
     color = {0, 128, 128, 255},
+    ---@type number | nil # arrow radius
+    radius = 2,
     ---@type number | nil # horizontal speed
     u = nil,
     ---@type number | nil # vertical speed
@@ -21,7 +25,7 @@ Arrow = {
 ---@param x number # horizontal position of the arrow
 ---@param y number # vertical position of the arrow
 ---@return Arrow
-function Arrow:new(u, v, x, y)
+function Arrow:new(x, y, u, v)
     assert(self ~= nil, "Wrong signature for call to Arrow:new")
     local mt = { __index = Arrow }
     local members = {
@@ -38,7 +42,7 @@ end
 function Arrow:draw()
     assert(self ~= nil, "Wrong signature for call to Arrow:draw")
     love.graphics.setColor(self.color)
-    love.graphics.circle("fill", self.x, self.y, 4)
+    love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
 end
 
