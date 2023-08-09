@@ -89,19 +89,21 @@ function Balloons:update(dt)
         local color = nil
         local radius = nil
         local sounds = nil
+        local value = nil
         local rand = math.random() * 100
         for _, row in ipairs(self.classes) do
             if rand < row.cprob then
                 color = row.color
                 radius = row.radius
                 sounds = row.sounds
+                value = row.value
             end
         end
         local x = width - 640 + math.random(0, 7) * 70
         local y = State.ground.y - radius
         local u = 0
         local v = -20
-        local balloon = Balloon:new(x, y, u, v, color, radius, sounds)
+        local balloon = Balloon:new(x, y, u, v, color, radius, sounds, value)
         table.insert(self.balloons, balloon)
     end
 

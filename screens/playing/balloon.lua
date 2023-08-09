@@ -14,10 +14,12 @@ local Balloon = {
     radius = 10,
     ---@type table<"pop"|"score", love.Source> # balloon sounds
     sounds = {},
-    ---@type number | nil # horizontal speed
-    u = nil,
-    ---@type number | nil # vertical speed
-    v = nil,
+    ---@type number # horizontal speed
+    u = 0,
+    ---@type number # vertical speed
+    v = 0,
+    ---@type number | nil # value
+    value = nil,
     ---@type number | nil # horizontal position
     x = nil,
     ---@type number | nil # vertical position
@@ -25,7 +27,7 @@ local Balloon = {
 }
 
 ---@return Balloon
-function Balloon:new(x, y, u, v, color, radius, sounds)
+function Balloon:new(x, y, u, v, color, radius, sounds, value)
     check(self, Balloon.__name__)
     local mt = { __index = Balloon }
     local members = {
@@ -35,6 +37,7 @@ function Balloon:new(x, y, u, v, color, radius, sounds)
         sounds = sounds,
         u = u,
         v = v,
+        value = value,
         x = x,
         y = y
     }

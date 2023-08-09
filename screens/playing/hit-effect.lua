@@ -1,11 +1,11 @@
 local check = require "check-self"
 
----@class Hit
-local Hit = {
+---@class HitEffect
+local HitEffect = {
     ---@type string # class name
-    __name__ = "Hit",
+    __name__ = "HitEffect",
     ---@type number # How old the hit is
-    age = nil,
+    age = 0,
     ---@type number # How old the hit can maximally be
     age_max = 1.3,
     ---@type boolean # Whether the hit is still alive
@@ -26,31 +26,30 @@ local Hit = {
     y = nil
 }
 
----@return Hit
-function Hit:new(x, y, u, v)
-    check(self, Hit.__name__)
-    local mt = { __index = Hit }
+---@return HitEffect
+function HitEffect:new(x, y)
+    check(self, HitEffect.__name__)
+    local mt = { __index = HitEffect }
     local members = {
-        age = 0,
-        u = u,
-        v = v,
+        u = (math.random() * 2 - 1) * 20,
+        v = (math.random() * 2 - 1) * 20,
         x = x,
         y = y
     }
     return setmetatable(members, mt)
 end
 
----@return Hit
-function Hit:draw()
-    check(self, Hit.__name__)
+---@return HitEffect
+function HitEffect:draw()
+    check(self, HitEffect.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
 end
 
----@return Hit
-function Hit:update(dt)
-    check(self, Hit.__name__)
+---@return HitEffect
+function HitEffect:update(dt)
+    check(self, HitEffect.__name__)
     self.age = self.age + dt
     self.x = self.x + self.u * dt
     self.y = self.y + self.v * dt
@@ -66,4 +65,4 @@ function Hit:update(dt)
     return self
 end
 
-return Hit
+return HitEffect
