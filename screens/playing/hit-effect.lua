@@ -13,9 +13,9 @@ local HitEffect = {
     ---@type number[] # RGBA brightness
     color = {245 / 255, 255 / 255, 181 / 255, 255 / 255},
     ---@type number # radius
-    radius = 2,
+    radius = 3,
     ---@type number # radius at age 0
-    radius_max = 2,
+    radius_max = 3,
     ---@type number | nil # horizontal speed
     u = nil,
     ---@type number | nil # vertical speed
@@ -31,8 +31,8 @@ function HitEffect:new(x, y)
     check(self, HitEffect.__name__)
     local mt = { __index = HitEffect }
     local members = {
-        u = (math.random() * 2 - 1) * 20,
-        v = (math.random() * 2 - 1) * 20,
+        u = (math.random() * 2 - 1) * 30,
+        v = (math.random() * 2 - 1) * 30,
         x = x,
         y = y
     }

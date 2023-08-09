@@ -41,7 +41,7 @@ function Collisions:update()
                 for _ = 0, math.random(3, 7), 1 do
                     local hit_effect = HitEffect:new(arrow.x + dx * ratio, arrow.y + dy * ratio)
                     table.insert(State.hit_effects.hit_effects, hit_effect)
-                    local hit_score = HitScore:new(balloon.x, balloon.y, balloon.u + 5, balloon.v - 10, balloon.value)
+                    local hit_score = HitScore:new(balloon.x, balloon.y - balloon.radius - 15, balloon.u + 5, balloon.v - 10, balloon.value)
                     table.insert(State.hit_scores.hit_scores, hit_score)
                 end
                 arrow.alive = false

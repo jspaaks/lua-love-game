@@ -3,8 +3,10 @@ local Screens = require "screens"
 local Arrows = require "screens.playing.arrows"
 local Balloons = require "screens.playing.balloons"
 local Bow = require "screens.playing.bow"
+local Collisions = require "screens.playing.collisions"
 local Ground = require "screens.playing.ground"
-local Hits = require "screens.playing.hits"
+local HitEffects = require "screens.playing.hit-effects"
+local HitScores = require "screens.playing.hit-scores"
 local Moon = require "screens.playing.moon"
 
 
@@ -31,7 +33,9 @@ function love.load()
     State.bow = Bow:new(arrows_spawn_dx, arrows_spawn_dy, State.ground)
     State.arrows = Arrows:new(State.bow)
     State.balloons = Balloons:new(balloons_spawn_rate, State.ground)
-    State.hits = Hits:new(State.arrows, State.balloons)
+    State.collisions = Collisions:new(State.arrows, State.balloons)
+    State.hit_effects = HitEffects:new()
+    State.hit_scores = HitScores:new()
 end
 
 function love.update(dt)
@@ -39,9 +43,11 @@ function love.update(dt)
     State.ground:update()
     if State.screens.current == "playing" then
         State.bow:update()
+        State.collisions:update()
         State.arrows:update(dt)
         State.balloons:update(dt)
-        State.hits:update(dt)
+        State.hit_effects:update(dt)
+        State.hit_scores:update(dt)
     end
     State.keypressed = {}
 end
@@ -50,10 +56,11 @@ function love.draw()
     State.ground:draw()
     State.moon:draw()
     if State.screens.current == "playing" then
-        State.bow:draw()
         State.arrows:draw()
         State.balloons:draw()
-        State.hits:draw()
+        State.bow:draw()
+        State.hit_effects:draw()
+        State.hit_scores:draw()
     elseif State.screens.current == "start" then
         love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
         love.graphics.setFont(State.fonts["title"])
@@ -81,5 +88,5 @@ end
 function love.resize(w, h)
     State.arrows:mark_all_as_dead()
     State.balloons:mark_all_as_dead()
-    State.hits:mark_all_as_dead()
+    State.hit_effects:mark_all_as_dead()
 end
