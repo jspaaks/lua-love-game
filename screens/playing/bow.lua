@@ -1,5 +1,5 @@
 ---@class Bow # The Bow.
-Bow = {
+local Bow = {
     ---@type string # class name
     __name__ = "Bow",
     ---@type number | nil # horizontal position
@@ -11,7 +11,11 @@ Bow = {
     ---@type number | nil # vertical distance from the reference
     dy = nil,
     ---@type Ground | nil # reference to Ground object
-    ground = nil
+    ground = nil,
+    ---@type table<"shot", love.Source> # Arrow sounds
+    sounds = {
+        shot = love.audio.newSource("sounds/shot.wav", "static"),
+    }
 }
 
 ---@param dx number # bow's horizontal distance from the reference
@@ -44,3 +48,5 @@ function Bow:update()
     self.y = self.ground.y + self.dy
     return self
 end
+
+return Bow

@@ -1,5 +1,5 @@
 ---@class Hit
-Hit = {
+local Hit = {
     ---@type string # class name
     __name__ = "Hit",
     ---@type number # How old the hit is
@@ -62,3 +62,5 @@ function Hit:update(dt)
                  self.y < height
     return self
 end
+
+return Hit

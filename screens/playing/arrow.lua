@@ -1,9 +1,9 @@
----@class Arrow # The arrow.
-Arrow = {
+---@class Arrow # The Arrow class.
+local Arrow = {
     ---@type string # class name
     __name__ = "Arrow",
     ---@type number # How old the arrow is
-    age = nil,
+    age = 0,
     ---@type boolean # Whether the arrow is still alive
     alive = true,
     ---@type number[] # RGBA brightness
@@ -29,7 +29,6 @@ function Arrow:new(x, y, u, v)
     assert(self ~= nil, "Wrong signature for call to Arrow:new")
     local mt = { __index = Arrow }
     local members = {
-        age = 0,
         u = u,
         v = v,
         x = x,
@@ -50,7 +49,7 @@ end
 ---@return Arrow
 function Arrow:update(dt)
     self.age = self.age + dt
-    self.v = self.v + 0.5 * GRAVITY_ACCELERATION * dt * dt
+    self.v = self.v + 0.5 * State.GRAVITY_ACCELERATION * dt * dt
     self.u = self.u
     self.x = self.x + self.u * dt
     self.y = self.y + self.v * dt
@@ -64,3 +63,5 @@ function Arrow:update(dt)
                  self.y < height
     return self
 end
+
+return Arrow

@@ -1,8 +1,8 @@
 ---@class Balloon
-Balloon = {
+local Balloon = {
     ---@type string # class name
     __name__ = "Balloon",
-    ---@type number # How old the balloon is
+    ---@type number | nil # How old the balloon is
     age = nil,
     ---@type boolean # Whether the balloon is still alive
     alive = true,
@@ -10,8 +10,8 @@ Balloon = {
     color = {0, 128, 128, 255},
     ---@type number # balloon radius
     radius = 10,
-    ---@type love.Source | nil # balloon sound
-    sound = nil,
+    ---@type table<"pop"|"score", love.Source> # balloon sounds
+    sounds = {},
     ---@type number | nil # horizontal speed
     u = nil,
     ---@type number | nil # vertical speed
@@ -23,14 +23,14 @@ Balloon = {
 }
 
 ---@return Balloon
-function Balloon:new(x, y, u, v, color, radius, sound)
+function Balloon:new(x, y, u, v, color, radius, sounds)
     assert(self ~= nil, "Wrong signature for call to Balloon:new")
     local mt = { __index = Balloon }
     local members = {
         age = 0,
         color = color,
         radius = radius,
-        sound = sound,
+        sounds = sounds,
         u = u,
         v = v,
         x = x,
@@ -62,3 +62,5 @@ function Balloon:update(dt)
                  self.y < height
     return self
 end
+
+return Balloon

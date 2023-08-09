@@ -1,5 +1,5 @@
 ---@class Ground # The ground.
-Ground = {
+local Ground = {
     ---@type string # class name
     __name__ = "Ground",
     ---@type number[] # RGBA brightness
@@ -36,3 +36,5 @@ function Ground:update()
     self.y = height - self.thickness
     return self
 end
+
+return Ground

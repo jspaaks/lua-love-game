@@ -1,5 +1,5 @@
 ---@class Moon # The Moon.
-Moon = {
+local Moon = {
     ---@type number[] # RGBA brightness
     color = {224 / 255,  220 / 255, 191 / 255, 255 / 255},
     ---@type number # radius
@@ -33,3 +33,5 @@ function Moon:draw()
     local y2 = self.from_top - self.radius * 0.25
     love.graphics.circle("fill", x2, y2, self.radius)
 end
+
+return Moon
