@@ -36,8 +36,8 @@ end
 
 function love.update(dt)
     State.screens:update()
+    State.ground:update()
     if State.screens.current == "playing" then
-        State.ground:update()
         State.bow:update()
         State.arrows:update(dt)
         State.balloons:update(dt)
@@ -47,9 +47,9 @@ function love.update(dt)
 end
 
 function love.draw()
+    State.ground:draw()
+    State.moon:draw()
     if State.screens.current == "playing" then
-        State.ground:draw()
-        State.moon:draw()
         State.bow:draw()
         State.arrows:draw()
         State.balloons:draw()
