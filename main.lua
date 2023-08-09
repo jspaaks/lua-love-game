@@ -1,17 +1,15 @@
 require "love"
-require "screens"
-require "screens/playing/moon"
-require "screens/playing/ground"
-require "screens/playing/arrow"
-require "screens/playing/arrows"
-require "screens/playing/bow"
-require "screens/playing/balloon"
-require "screens/playing/balloons"
-require "screens/playing/hits"
-require "screens/playing/hit"
+local Screens = require "screens"
+local Arrows = require "screens.playing.arrows"
+local Balloons = require "screens.playing.balloons"
+local Bow = require "screens.playing.bow"
+local Ground = require "screens.playing.ground"
+local Hits = require "screens.playing.hits"
+local Moon = require "screens.playing.moon"
 
 
-GRAVITY_ACCELERATION = 1900.0 -- pixels per s per s
+State = {}
+State.GRAVITY_ACCELERATION = 1900.0 -- pixels per s per s
 
 function love.load()
     math.randomseed(os.time())
@@ -22,14 +20,9 @@ function love.load()
     local ground_thickness = 100
     local arrows_spawn_dx = 80
     local arrows_spawn_dy = -50
-    State = {}
-    State.sounds = {
-        ["shot"] = love.audio.newSource("sounds/shot.wav", "static"),
-        ["pop"] = love.audio.newSource("sounds/pop.wav", "static")
-    }
     State.fonts = {
-        ["title"] = love.graphics.newFont("fonts/Bayon-Regular.ttf", 64),
-        ["normal"] = love.graphics.newFont("fonts/Bayon-Regular.ttf", 32)
+        title = love.graphics.newFont("fonts/Bayon-Regular.ttf", 64),
+        normal = love.graphics.newFont("fonts/Bayon-Regular.ttf", 32)
     }
     State.keypressed = {}
     State.screens = Screens:new()
@@ -86,7 +79,7 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.resize(w, h)
-    State.arrows:remove_all()
-    State.balloons:remove_all()
-    State.hits:remove_all()
+    State.arrows:mark_all_as_dead()
+    State.balloons:mark_all_as_dead()
+    State.hits:mark_all_as_dead()
 end

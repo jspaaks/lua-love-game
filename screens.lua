@@ -1,5 +1,5 @@
 ---@class Screens # The Screens
-Screens = {
+local Screens = {
     ---@type string # class name
     __name__ = "Screens",
     ---@type string # The current screen
@@ -38,3 +38,5 @@ function Screens:update()
     end
     return self
 end
+
+return Screens

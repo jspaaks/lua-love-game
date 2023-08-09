@@ -1,8 +1,10 @@
+local check = require "check-self"
+
 ---@class Balloon
-Balloon = {
+local Balloon = {
     ---@type string # class name
     __name__ = "Balloon",
-    ---@type number # How old the balloon is
+    ---@type number | nil # How old the balloon is
     age = nil,
     ---@type boolean # Whether the balloon is still alive
     alive = true,
@@ -10,8 +12,8 @@ Balloon = {
     color = {0, 128, 128, 255},
     ---@type number # balloon radius
     radius = 10,
-    ---@type love.Source | nil # balloon sound
-    sound = nil,
+    ---@type table<"pop"|"score", love.Source> # balloon sounds
+    sounds = {},
     ---@type number | nil # horizontal speed
     u = nil,
     ---@type number | nil # vertical speed
@@ -23,14 +25,14 @@ Balloon = {
 }
 
 ---@return Balloon
-function Balloon:new(x, y, u, v, color, radius, sound)
-    assert(self ~= nil, "Wrong signature for call to Balloon:new")
+function Balloon:new(x, y, u, v, color, radius, sounds)
+    check(self, Balloon.__name__)
     local mt = { __index = Balloon }
     local members = {
         age = 0,
         color = color,
         radius = radius,
-        sound = sound,
+        sounds = sounds,
         u = u,
         v = v,
         x = x,
@@ -41,7 +43,7 @@ end
 
 ---@return Balloon
 function Balloon:draw()
-    assert(self ~= nil, "Wrong signature for call to Balloon:draw")
+    check(self, Balloon.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
@@ -49,6 +51,7 @@ end
 
 ---@return Balloon
 function Balloon:update(dt)
+    check(self, Balloon.__name__)
     self.age = self.age + dt
     self.x = self.x + self.u * dt
     self.y = self.y + self.v * dt
@@ -62,3 +65,5 @@ function Balloon:update(dt)
                  self.y < height
     return self
 end
+
+return Balloon

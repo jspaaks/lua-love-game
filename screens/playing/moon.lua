@@ -1,5 +1,9 @@
+local check = require "check-self"
+
 ---@class Moon # The Moon.
-Moon = {
+local Moon = {
+    ---@type string # class name
+    __name__ = "Moon",
     ---@type number[] # RGBA brightness
     color = {224 / 255,  220 / 255, 191 / 255, 255 / 255},
     ---@type number # radius
@@ -12,7 +16,7 @@ Moon = {
 
 ---@return Moon
 function Moon:new()
-    assert(self ~= nil, "Wrong signature for call to ExitButton:new")
+    check(self, Moon.__name__)
     local mt = { __index = Moon }
     local members = {
         __name__ = "Moon",
@@ -21,7 +25,7 @@ function Moon:new()
 end
 
 function Moon:draw()
-    assert(self ~= nil, "Wrong signature for call to ExitButton:draw")
+    check(self, Moon.__name__)
     local width, _ = love.graphics.getDimensions()
     love.graphics.setColor(self.color)
     local x1 = width - self.from_right
@@ -33,3 +37,5 @@ function Moon:draw()
     local y2 = self.from_top - self.radius * 0.25
     love.graphics.circle("fill", x2, y2, self.radius)
 end
+
+return Moon

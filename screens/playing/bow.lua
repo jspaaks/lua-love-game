@@ -1,5 +1,7 @@
+local check = require "check-self"
+
 ---@class Bow # The Bow.
-Bow = {
+local Bow = {
     ---@type string # class name
     __name__ = "Bow",
     ---@type number | nil # horizontal position
@@ -11,7 +13,11 @@ Bow = {
     ---@type number | nil # vertical distance from the reference
     dy = nil,
     ---@type Ground | nil # reference to Ground object
-    ground = nil
+    ground = nil,
+    ---@type table<"shot", love.Source> # Arrow sounds
+    sounds = {
+        shot = love.audio.newSource("sounds/shot.wav", "static"),
+    }
 }
 
 ---@param dx number # bow's horizontal distance from the reference
@@ -19,7 +25,7 @@ Bow = {
 ---@param ground Ground # reference to ground object
 ---@return Bow
 function Bow:new(dx, dy, ground)
-    assert(self ~= nil, "Wrong signature for call to Bow:new")
+    check(self, Bow.__name__)
     local mt = { __index = Bow }
     local members = {
         dx = dx,
@@ -31,7 +37,7 @@ end
 
 ---@return Bow
 function Bow:draw()
-    assert(self ~= nil, "Wrong signature for call to Bow:draw")
+    check(self, Bow.__name__)
     love.graphics.setColor(0, 255, 0, 255)
     love.graphics.circle("fill", self.x, self.y, 4)
     return self
@@ -39,8 +45,10 @@ end
 
 ---@return Bow
 function Bow:update()
-    assert(self ~= nil, "Wrong signature for call to Bow:update")
+    check(self, Bow.__name__)
     self.x = 0 + self.dx
     self.y = self.ground.y + self.dy
     return self
 end
+
+return Bow

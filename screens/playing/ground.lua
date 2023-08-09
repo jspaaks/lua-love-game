@@ -1,5 +1,7 @@
+local check = require "check-self"
+
 ---@class Ground # The ground.
-Ground = {
+local Ground = {
     ---@type string # class name
     __name__ = "Ground",
     ---@type number[] # RGBA brightness
@@ -12,7 +14,7 @@ Ground = {
 
 ---@return Ground
 function Ground:new(thickness)
-    assert(self ~= nil, "Wrong signature for call to Ground:new")
+    check(self, Ground.__name__)
     local mt = { __index = Ground }
     local members = {
         thickness = thickness
@@ -22,7 +24,7 @@ end
 
 ---@return Ground
 function Ground:draw()
-    assert(self ~= nil, "Wrong signature for call to Ground:draw")
+    check(self, Ground.__name__)
     local width, height = love.graphics.getDimensions()
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", 0, self.y, width, height)
@@ -31,8 +33,10 @@ end
 
 ---@return Ground
 function Ground:update()
-    assert(self ~= nil, "Wrong signature for call to Ground:update")
+    check(self, Ground.__name__)
     local _, height = love.graphics.getDimensions()
     self.y = height - self.thickness
     return self
 end
+
+return Ground
