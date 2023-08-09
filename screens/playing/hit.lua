@@ -1,3 +1,5 @@
+local check = require "check-self"
+
 ---@class Hit
 local Hit = {
     ---@type string # class name
@@ -26,7 +28,7 @@ local Hit = {
 
 ---@return Hit
 function Hit:new(x, y, u, v)
-    assert(self ~= nil, "Wrong signature for call to Hit:new")
+    check(self, Hit.__name__)
     local mt = { __index = Hit }
     local members = {
         age = 0,
@@ -40,7 +42,7 @@ end
 
 ---@return Hit
 function Hit:draw()
-    assert(self ~= nil, "Wrong signature for call to Hit:draw")
+    check(self, Hit.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
@@ -48,6 +50,7 @@ end
 
 ---@return Hit
 function Hit:update(dt)
+    check(self, Hit.__name__)
     self.age = self.age + dt
     self.x = self.x + self.u * dt
     self.y = self.y + self.v * dt

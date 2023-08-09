@@ -1,4 +1,5 @@
 local Arrow = require "screens.playing.arrow"
+local check = require "check-self"
 
 ---@class Arrows # The collection of arrows.
 local Arrows = {
@@ -14,9 +15,7 @@ local Arrows = {
 ---@param bow Bow # reference to Bow object
 ---@return Arrows
 function Arrows:new(bow)
-    local cond = self ~= nil and
-                 bow.__name__ == "Bow"
-    assert(cond, "Wrong signature for call to Arrows:new")
+    check(self, Arrows.__name__)
     local mt = { __index = Arrows }
     local members = {
         arrows = {},
@@ -27,7 +26,7 @@ end
 
 ---@return Arrows
 function Arrows:draw()
-    assert(self ~= nil, "Wrong signature for call to Arrows:draw")
+    check(self, Arrows.__name__)
     for _, arrow in ipairs(self.arrows) do
         arrow:draw()
     end
@@ -36,7 +35,7 @@ end
 
 ---@return Arrows
 function Arrows:mark_all_as_dead()
-    assert(self ~= nil, "Wrong signature for call to Arrows:mark_all_as_dead")
+    check(self, Arrows.__name__)
     for _, arrow in ipairs(self.arrows) do
         arrow.alive = false
     end
@@ -46,8 +45,7 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Arrows
 function Arrows:update(dt)
-    local cond = self ~= nil and type(dt) == "number"
-    assert(cond, "Wrong signature for call to Arrows:update")
+    check(self, Arrows.__name__)
 
     -- spawn new arrow based on global keypressed state
     if State.keypressed["space"] then

@@ -1,3 +1,4 @@
+local check = require "check-self"
 local Hit = require "screens.playing.hit"
 
 ---@class Hits # The collection of hits.
@@ -16,10 +17,7 @@ local Hits = {
 ---@param balloons Balloons # Reference to the Balloons collection object
 ---@return Hits
 function Hits:new(arrows, balloons)
-    local cond = self ~= nil and
-                 arrows.__name__ == "Arrows" and
-                 balloons.__name__ == "Balloons"
-    assert(cond, "Wrong signature for call to Hits:new")
+    check(self, Hits.__name__)
     local mt = { __index = Hits }
     local members = {
         arrows = arrows,
@@ -30,7 +28,7 @@ end
 
 ---@return Hits
 function Hits:draw()
-    assert(self ~= nil, "Wrong signature for call to Hits:draw")
+    check(self, Hits.__name__)
     for _, hit in ipairs(self.hits) do
         hit:draw()
     end
@@ -39,7 +37,7 @@ end
 
 ---@return Hits
 function Hits:mark_all_as_dead()
-    assert(self ~= nil, "Wrong signature for call to Hits:mark_all_as_dead")
+    check(self, Hits.__name__)
     for _, hit in ipairs(self.hits) do
         hit.alive = false
     end
@@ -49,8 +47,7 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Hits
 function Hits:update(dt)
-    local cond = self ~= nil and type(dt) == "number"
-    assert(cond, "Wrong signature for call to Hits:update")
+    check(self, Hits.__name__)
 
     -- calculate collisions, spawn hits
     for _, arrow in ipairs(self.arrows.arrows) do

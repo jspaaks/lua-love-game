@@ -1,4 +1,5 @@
 local Balloon = require "screens.playing.balloon"
+local check = require "check-self"
 
 ---@class Balloons # The collection of balloons.
 local Balloons = {
@@ -45,14 +46,11 @@ local Balloons = {
     spawn_rate = nil
 }
 
-
 ---@param spawn_rate number # how fast balloons are spawning
 ---@param ground Ground # Reference to the Ground object
 ---@return Balloons
 function Balloons:new(spawn_rate, ground)
-    local cond = self ~= nil and
-                 type(spawn_rate) == "number"
-    assert(cond, "Wrong signature for call to Balloons:new")
+    check(self, Balloons.__name__)
     local mt = { __index = Balloons }
     local members = {
         balloons = {},
@@ -64,7 +62,7 @@ end
 
 ---@return Balloons
 function Balloons:draw()
-    assert(self ~= nil, "Wrong signature for call to Balloons:draw")
+    check(self, Balloons.__name__)
     for _, balloon in ipairs(self.balloons) do
         balloon:draw()
     end
@@ -73,7 +71,7 @@ end
 
 ---@return Balloons
 function Balloons:mark_all_as_dead()
-    assert(self ~= nil, "Wrong signature for call to Balloons:mark_all_as_dead")
+    check(self, Balloons.__name__)
     for _, balloon in ipairs(self.balloons) do
         balloon.alive = false
     end
@@ -83,8 +81,7 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Balloons
 function Balloons:update(dt)
-    local cond = self ~= nil and type(dt) == "number"
-    assert(cond, "Wrong signature for call to Balloons:update")
+    check(self, Balloons.__name__)
     local width, _ = love.graphics.getDimensions()
 
     -- spawn balloons

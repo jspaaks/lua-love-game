@@ -1,3 +1,5 @@
+local check = require "check-self"
+
 ---@class Arrow # The Arrow class.
 local Arrow = {
     ---@type string # class name
@@ -26,7 +28,7 @@ local Arrow = {
 ---@param y number # vertical position of the arrow
 ---@return Arrow
 function Arrow:new(x, y, u, v)
-    assert(self ~= nil, "Wrong signature for call to Arrow:new")
+    check(self, Arrow.__name__)
     local mt = { __index = Arrow }
     local members = {
         u = u,
@@ -39,7 +41,7 @@ end
 
 ---@return Arrow
 function Arrow:draw()
-    assert(self ~= nil, "Wrong signature for call to Arrow:draw")
+    check(self, Arrow.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
@@ -48,6 +50,7 @@ end
 ---@param dt number # Time elapsed since last frame (seconds)
 ---@return Arrow
 function Arrow:update(dt)
+    check(self, Arrow.__name__)
     self.age = self.age + dt
     self.v = self.v + 0.5 * State.GRAVITY_ACCELERATION * dt * dt
     self.u = self.u

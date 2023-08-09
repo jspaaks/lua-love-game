@@ -1,3 +1,5 @@
+local check = require "check-self"
+
 ---@class Balloon
 local Balloon = {
     ---@type string # class name
@@ -24,7 +26,7 @@ local Balloon = {
 
 ---@return Balloon
 function Balloon:new(x, y, u, v, color, radius, sounds)
-    assert(self ~= nil, "Wrong signature for call to Balloon:new")
+    check(self, Balloon.__name__)
     local mt = { __index = Balloon }
     local members = {
         age = 0,
@@ -41,7 +43,7 @@ end
 
 ---@return Balloon
 function Balloon:draw()
-    assert(self ~= nil, "Wrong signature for call to Balloon:draw")
+    check(self, Balloon.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
@@ -49,6 +51,7 @@ end
 
 ---@return Balloon
 function Balloon:update(dt)
+    check(self, Balloon.__name__)
     self.age = self.age + dt
     self.x = self.x + self.u * dt
     self.y = self.y + self.v * dt
