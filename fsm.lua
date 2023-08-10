@@ -63,4 +63,17 @@ function StateMachine:change_to(tgtname)
     return self
 end
 
+function StateMachine:enter(tgtname)
+    check(self, StateMachine.__name__)
+    local exists = false
+    for _, option in ipairs(self.options) do
+        if option.name == tgtname then
+            exists = true
+            return option.state
+        end
+    end
+    assert(exists, "StateMachine instance does not have a state '" .. tgtname .. "' to change to.")
+    return nil
+end
+
 return StateMachine

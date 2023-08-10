@@ -12,7 +12,11 @@ local Arrows = {
     ---@type Bow | nil # where arrows are spawning
     bow = nil,
     ---@type number | nil  # how many arrows are remaining
-    remaining = nil
+    remaining = nil,
+    ---@type number | nil  # horizontal position where arrows are spawning
+    x = nil,
+    ---@type number | nil  # vertical position where arrows are spawning
+    y = nil
 }
 
 
@@ -24,7 +28,9 @@ function Arrows:new(bow)
     local members = {
         arrows = {},
         bow = bow,
-        remaining = Arrows.alotted
+        remaining = Arrows.alotted,
+        x = bow.x,
+        y = bow.y
     }
     return setmetatable(members, mt)
 end
@@ -54,13 +60,13 @@ function Arrows:update(dt)
 
     -- spawn new arrow based on global keypressed state
     if State.keypressed["space"] then
-        if State.arrows.remaining > 0 then
-            local arrow = Arrow:new(State.bow.x, State.bow.y, 280, -50)
+        if self.remaining > 0 then
+            local arrow = Arrow:new(self.x, self.y, 280, -50)
             table.insert(self.arrows, arrow)
-            State.bow.sounds.shot:clone():play()
+            self.bow.sounds.shot:clone():play()
             self.remaining = self.remaining - 1
         else
-            State.bow.sounds.empty:clone():play()
+            self.bow.sounds.empty:clone():play()
         end
     end
 

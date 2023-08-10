@@ -19,6 +19,8 @@ function StartScreen:update()
     State.moon:update()
     if State.keypressed["return"] then
         State.screen:change_to("playing")
+    elseif State.keypressed["q"] then
+        love.event.quit(0)
     end
     return self
 end
@@ -30,9 +32,9 @@ function StartScreen:draw()
     State.moon:draw()
     love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
     love.graphics.setFont(State.fonts["title"])
-    love.graphics.printf("Midnight Balloon Murder", 1280 / 2 - 350, 350 - 1.5 * 64, 700, "center")
+    love.graphics.printf("MIDNIGHT BALLOON MURDER", 1280 / 2 - 350, 350 - 1.5 * 64, 700, "center")
     love.graphics.setFont(State.fonts["normal"])
-    love.graphics.printf("Press Enter to start the game", 1280 / 2 - 250, 500, 500, "center")
+    love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY", 0, 450, 1280, "center")
     return self
 end
 

@@ -85,7 +85,7 @@ function Balloons:update(dt)
     local width, _ = love.graphics.getDimensions()
 
     -- spawn balloons
-    if math.random() < self.spawn_rate * dt then
+    if math.random() < self.spawn_rate * dt or #self.balloons == 0 then
         local color = nil
         local radius = nil
         local sounds = nil

@@ -8,9 +8,7 @@ local Bow = {
     x = nil,
     ---@type number | nil # vertical position
     y = nil,
-    ---@type number | nil # horizontal distance from the reference
-    dx = nil,
-    ---@type number | nil # vertical distance from the reference
+    ---@type number | nil # vertical offset
     dy = nil,
     ---@type Ground | nil # reference to Ground object
     ground = nil,
@@ -21,18 +19,17 @@ local Bow = {
     }
 }
 
----@param dx number # bow's horizontal distance from the reference
----@param dy number # bow's vertical distance from the reference
+---@param x number # bow's horizontal position
+---@param dy number # bow's vertical offset above ground
 ---@param ground Ground # reference to ground object
 ---@return Bow
-function Bow:new(dx, dy, ground)
+function Bow:new(x, dy, ground)
     check(self, Bow.__name__)
     local mt = { __index = Bow }
     local members = {
-        dx = dx,
         dy = dy,
         ground = ground,
-        x = 0 + dx,
+        x = x,
         y = ground.y + dy
     }
     return setmetatable(members, mt)
@@ -49,7 +46,6 @@ end
 ---@return Bow
 function Bow:update()
     check(self, Bow.__name__)
-    self.x = 0 + self.dx
     self.y = self.ground.y + self.dy
     return self
 end
