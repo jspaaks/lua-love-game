@@ -54,19 +54,19 @@ function love.load()
     State.screen = Fsm:create({
         {
             name = "start",
-            state = StartScreen
+            state = StartScreen:new()
         },
         {
             name = "playing",
-            state = PlayingScreen
+            state = PlayingScreen:new()
         },
         {
             name = "paused",
-            state = PausedScreen
+            state = PausedScreen:new()
         },
         {
             name = "gameover",
-            state = GameoverScreen
+            state = GameoverScreen:new()
         }
     })
 end
