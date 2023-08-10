@@ -1,17 +1,30 @@
 require "love"
-local Screens = require "screens"
+local Fsm = require "fsm"
 local Arrows = require "screens.playing.arrows"
 local Balloons = require "screens.playing.balloons"
 local Bow = require "screens.playing.bow"
 local Collisions = require "screens.playing.collisions"
-local Ground = require "screens.playing.ground"
+local Ground = require "ground"
 local HitEffects = require "screens.playing.hit-effects"
 local HitScores = require "screens.playing.hit-scores"
-local Moon = require "screens.playing.moon"
+local Moon = require "moon"
+local StartScreen = require "screens.start.screen"
+local PlayingScreen = require "screens.playing.screen"
+local PausedScreen = require "screens.paused.screen"
+local GameoverScreen = require "screens.gameover.screen"
 
 
 State = {}
-State.GRAVITY_ACCELERATION = 1900.0 -- pixels per s per s
+
+function State:reset()
+    State.balloons.balloons = {}
+    State.arrows.arrows = {}
+    State.arrows.remaining = State.arrows.alotted
+    State.hit_effects.hit_effects = {}
+    State.hit_scores.hit_scores = {}
+    State.collisions.cvalue = 0
+    State.screen:change_to("playing")
+end
 
 function love.load()
     math.randomseed(os.time())
@@ -22,12 +35,14 @@ function love.load()
     local ground_thickness = 100
     local arrows_spawn_dx = 80
     local arrows_spawn_dy = -50
+    State.GRAVITY_ACCELERATION = 1900.0 -- pixels per s per s
     State.fonts = {
         title = love.graphics.newFont("fonts/Bayon-Regular.ttf", 64),
-        normal = love.graphics.newFont("fonts/Bayon-Regular.ttf", 32)
+        normal = love.graphics.newFont("fonts/Bayon-Regular.ttf", 32),
+        small = love.graphics.newFont("fonts/Bayon-Regular.ttf", 24)
     }
     State.keypressed = {}
-    State.screens = Screens:new()
+    State.showfps = false
     State.moon = Moon:new()
     State.ground = Ground:new(ground_thickness)
     State.bow = Bow:new(arrows_spawn_dx, arrows_spawn_dy, State.ground)
@@ -36,48 +51,41 @@ function love.load()
     State.collisions = Collisions:new(State.arrows, State.balloons)
     State.hit_effects = HitEffects:new()
     State.hit_scores = HitScores:new()
+    State.screen = Fsm:create({
+        {
+            name = "start",
+            state = StartScreen
+        },
+        {
+            name = "playing",
+            state = PlayingScreen
+        },
+        {
+            name = "paused",
+            state = PausedScreen
+        },
+        {
+            name = "gameover",
+            state = GameoverScreen
+        }
+    })
 end
 
 function love.update(dt)
-    State.screens:update()
-    State.ground:update()
-    if State.screens.current == "playing" then
-        State.bow:update()
-        State.collisions:update()
-        State.arrows:update(dt)
-        State.balloons:update(dt)
-        State.hit_effects:update(dt)
-        State.hit_scores:update(dt)
+    State.screen:update(dt)
+    if State.keypressed["f"] then
+        State.showfps = not State.showfps
     end
     State.keypressed = {}
 end
 
 function love.draw()
-    State.ground:draw()
-    State.moon:draw()
-    if State.screens.current == "playing" then
-        State.arrows:draw()
-        State.balloons:draw()
-        State.bow:draw()
-        State.hit_effects:draw()
-        State.hit_scores:draw()
-    elseif State.screens.current == "start" then
-        love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
-        love.graphics.setFont(State.fonts["title"])
-        love.graphics.printf("Midnight Balloon Murder", 1280 / 2 - 350, 350 - 1.5 * 64, 700, "center")
-        love.graphics.setFont(State.fonts["normal"])
-        love.graphics.printf("Press Enter to start the game", 1280 / 2 - 250, 500, 500, "center")
-    elseif State.screens.current == "paused" then
-        love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
-        love.graphics.setFont(State.fonts["title"])
-        love.graphics.printf("Paused", 1280 / 2 - 250, 300, 500, "center")
-        love.graphics.setFont(State.fonts["normal"])
-        love.graphics.printf("Enter to resume", 1280 / 2 - 250, 400, 500, "center")
-        love.graphics.printf("Q to quit", 1280 / 2 - 250, 450, 500, "center")
-    elseif State.screens.current == "gameover" then
-        love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
-        love.graphics.setFont(State.fonts["title"])
-        love.graphics.printf("Game over", 1280 / 2 - 250, 350, 500, "center")
+    State.screen:draw()
+    if State.showfps then
+        love.graphics.setFont(State.fonts.small)
+        love.graphics.setColor(1, 1, 0, 1)
+        local fps = string.format("FPS: %d", love.timer.getFPS())
+        love.graphics.print(fps, 20, 20)
     end
 end
 

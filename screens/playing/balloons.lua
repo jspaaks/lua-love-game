@@ -17,7 +17,7 @@ local Balloons = {
                 pop = love.audio.newSource("sounds/pop.wav", "static"),
                 score = love.audio.newSource("sounds/hit3.wav", "static")
             },
-            value = 5
+            value = 7
         },
         {
             color = {219 / 255, 149 / 255, 29 / 255, 255 / 255},  -- orange
@@ -27,7 +27,7 @@ local Balloons = {
                 pop = love.audio.newSource("sounds/pop.wav", "static"),
                 score = love.audio.newSource("sounds/hit2.wav", "static")
             },
-            value = 3
+            value = 5
         },
         {
             color = {219 / 255, 222 / 255, 80 / 255, 255 / 255},  -- yellow
@@ -37,7 +37,7 @@ local Balloons = {
                 pop = love.audio.newSource("sounds/pop.wav", "static"),
                 score = love.audio.newSource("sounds/hit1.wav", "static")
             },
-            value = 1,
+            value = 3,
         },
     },
     ---@type Ground | nil # Reference to the Ground object
