@@ -16,8 +16,10 @@ local Ground = {
 function Ground:new(thickness)
     check(self, Ground.__name__)
     local mt = { __index = Ground }
+    local _, height = love.graphics.getDimensions()
     local members = {
-        thickness = thickness
+        thickness = thickness,
+        y = height - thickness
     }
     return setmetatable(members, mt)
 end

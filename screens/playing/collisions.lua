@@ -9,7 +9,9 @@ local Collisions = {
     ---@type Arrows | nil # Reference to the Arrows collection object
     arrows = nil,
     ---@type Balloons | nil # Reference to the Balloons collection object
-    balloons = nil
+    balloons = nil,
+    ---@type number | nil # Cumulative value of Balloon instances that were hit
+    cvalue = nil
 }
 
 ---@param arrows Arrows # Reference to the Arrows collection object
@@ -20,7 +22,8 @@ function Collisions:new(arrows, balloons)
     local mt = { __index = Collisions }
     local members = {
         arrows = arrows,
-        balloons = balloons
+        balloons = balloons,
+        cvalue = 0
     }
     return setmetatable(members, mt)
 end
@@ -44,6 +47,8 @@ function Collisions:update()
                     local hit_score = HitScore:new(balloon.x, balloon.y - balloon.radius - 15, balloon.u + 5, balloon.v - 10, balloon.value)
                     table.insert(State.hit_scores.hit_scores, hit_score)
                 end
+                self.cvalue = self.cvalue + balloon.value
+                State.arrows.remaining = State.arrows.remaining + balloon.value
                 arrow.alive = false
                 balloon.alive = false
                 balloon.sounds.pop:clone():play()

@@ -14,8 +14,9 @@ local Bow = {
     dy = nil,
     ---@type Ground | nil # reference to Ground object
     ground = nil,
-    ---@type table<"shot", love.Source> # Arrow sounds
+    ---@type table<"shot"|"empty", love.Source> # Arrow sounds
     sounds = {
+        empty = love.audio.newSource("sounds/empty.wav", "static"),
         shot = love.audio.newSource("sounds/shot.wav", "static"),
     }
 }
@@ -30,7 +31,9 @@ function Bow:new(dx, dy, ground)
     local members = {
         dx = dx,
         dy = dy,
-        ground = ground
+        ground = ground,
+        x = 0 + dx,
+        y = ground.y + dy
     }
     return setmetatable(members, mt)
 end

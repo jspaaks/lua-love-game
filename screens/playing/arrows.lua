@@ -5,10 +5,14 @@ local check = require "check-self"
 local Arrows = {
     ---@type string # class name
     __name__ = "Arrows",
+    ---@type number  # how many arrows are remaining at the beginning of the run
+    alotted = 10,
     ---@type Arrow[] | {} # array that holds the arrows
     arrows = {},
     ---@type Bow | nil # where arrows are spawning
-    bow = nil
+    bow = nil,
+    ---@type number | nil  # how many arrows are remaining
+    remaining = nil
 }
 
 
@@ -19,7 +23,8 @@ function Arrows:new(bow)
     local mt = { __index = Arrows }
     local members = {
         arrows = {},
-        bow = bow
+        bow = bow,
+        remaining = Arrows.alotted
     }
     return setmetatable(members, mt)
 end
@@ -49,9 +54,14 @@ function Arrows:update(dt)
 
     -- spawn new arrow based on global keypressed state
     if State.keypressed["space"] then
-        local arrow = Arrow:new(State.bow.x, State.bow.y, 280, -50)
-        table.insert(self.arrows, arrow)
-        State.bow.sounds.shot:clone():play()
+        if State.arrows.remaining > 0 then
+            local arrow = Arrow:new(State.bow.x, State.bow.y, 280, -50)
+            table.insert(self.arrows, arrow)
+            State.bow.sounds.shot:clone():play()
+            self.remaining = self.remaining - 1
+        else
+            State.bow.sounds.empty:clone():play()
+        end
     end
 
     -- delegate update to individual arrow instances

@@ -24,6 +24,13 @@ function Moon:new()
     return setmetatable(members, mt)
 end
 
+
+function Moon:update()
+    check(self, Moon.__name__)
+    return self
+end
+
+
 function Moon:draw()
     check(self, Moon.__name__)
     local width, _ = love.graphics.getDimensions()
