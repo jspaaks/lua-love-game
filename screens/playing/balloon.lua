@@ -62,10 +62,10 @@ function Balloon:update(dt)
     local width, height = love.graphics.getDimensions()
     self.alive = self.alive and
                  self.age < 35 and
-                 self.x > 0 and
-                 self.x < width and
-                 self.y > 0 and
-                 self.y < height
+                 self.x + self.radius > 0 and
+                 self.x - self.radius < width and
+                 self.y + self.radius > 0 and
+                 self.y - self.radius < height
     return self
 end
 

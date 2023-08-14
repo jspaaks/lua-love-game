@@ -7,8 +7,8 @@ local Arrows = {
     __name__ = "Arrows",
     ---@type number  # how many arrows are remaining at the beginning of the run
     alotted = 10,
-    ---@type Arrow[] | {} # array that holds the arrows
-    arrows = {},
+    ---@type Arrow[] | nil # array that holds the arrows
+    arrows = nil,
     ---@type Bow | nil # where arrows are spawning
     bow = nil,
     ---@type number | nil  # how many arrows are remaining
@@ -26,14 +26,16 @@ function Arrows:new(bow)
     check(self, Arrows.__name__)
     local mt = { __index = Arrows }
     local members = {
-        arrows = {},
+        arrows = nil,
         bow = bow,
-        remaining = Arrows.alotted,
+        remaining = nil,
         x = bow.x,
         y = bow.y
     }
+    Arrows:reset()
     return setmetatable(members, mt)
 end
+
 
 ---@return Arrows
 function Arrows:draw()
@@ -44,6 +46,7 @@ function Arrows:draw()
     return self
 end
 
+
 ---@return Arrows
 function Arrows:mark_all_as_dead()
     check(self, Arrows.__name__)
@@ -52,6 +55,15 @@ function Arrows:mark_all_as_dead()
     end
     return self
 end
+
+
+---@return Arrows
+function Arrows:reset()
+    self.arrows = {}
+    self.remaining = self.alotted
+    return self
+end
+
 
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Arrows

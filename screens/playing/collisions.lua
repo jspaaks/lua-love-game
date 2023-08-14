@@ -29,11 +29,9 @@ function Collisions:new(arrows, balloons)
     local mt = { __index = Collisions }
     local members = {
         arrows = arrows,
-        balloons = balloons,
-        cvalue = 0,
-        hit_effects = HitEffects:new(),
-        hit_scores = HitScores:new()
+        balloons = balloons
     }
+    self:reset()
     return setmetatable(members, mt)
 end
 
@@ -79,5 +77,15 @@ function Collisions:draw()
     self.hit_scores:draw()
     return self
 end
+
+
+---@return Collisions
+function Collisions:reset()
+    self.hit_effects = HitEffects:new()
+    self.hit_scores = HitScores:new()
+    self.cvalue = 0
+    return self
+end
+
 
 return Collisions

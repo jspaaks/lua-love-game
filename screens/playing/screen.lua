@@ -47,7 +47,9 @@ function PlayingScreen:update(dt)
     self.arrows:update(dt)
     self.balloons:update(dt)
     self.collisions:update(dt)
-    if self.arrows.remaining <= 0 and #self.arrows.arrows == 0 then
+    local no_more_balloons = #self.balloons.remaining == 0 and #self.balloons.balloons == 0
+    local no_more_arrows = self.arrows.remaining <= 0 and #self.arrows.arrows == 0
+    if no_more_arrows or no_more_balloons then
         State.screen:change_to("gameover")
     elseif State.keypressed["escape"] then
         State.screen:change_to("paused")
@@ -57,11 +59,11 @@ end
 
 ---@return PlayingScreen
 function PlayingScreen:draw()
-    State.ground:draw()
     State.moon:draw()
-    self.bow:draw()
     self.arrows:draw()
     self.balloons:draw()
+    State.ground:draw()
+    self.bow:draw()
     self.collisions:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(State.fonts["small"])
@@ -75,12 +77,9 @@ function PlayingScreen:draw()
 end
 
 function PlayingScreen:reset()
-    self.balloons.balloons = {}
-    self.arrows.arrows = {}
-    self.arrows.remaining = self.arrows.alotted
-    self.collisions.hit_effects.hit_effects = {}
-    self.collisions.hit_scores.hit_scores = {}
-    self.collisions.cvalue = 0
+    self.balloons:reset()
+    self.arrows:reset()
+    self.collisions:reset()
 end
 
 return PlayingScreen
