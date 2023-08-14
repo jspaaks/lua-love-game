@@ -1,16 +1,16 @@
 local check = require "check-self"
 
----@class Arrow # The Arrow class.
-local Arrow = {
+---@class Bullet # The Bullet class.
+local Bullet = {
     ---@type string # class name
-    __name__ = "Arrow",
-    ---@type number # How old the arrow is
+    __name__ = "Bullet",
+    ---@type number # How old the bullet is
     age = 0,
-    ---@type boolean # Whether the arrow is still alive
+    ---@type boolean # Whether the bullet is still alive
     alive = true,
     ---@type number[] # RGBA brightness
     color = {0, 128, 128, 255},
-    ---@type number | nil # arrow radius
+    ---@type number | nil # bullet radius
     radius = 2,
     ---@type number | nil # horizontal speed
     u = nil,
@@ -22,14 +22,14 @@ local Arrow = {
     y = nil
 }
 
----@param u number # horizontal speed of the arrow
----@param v number # vertical speed of the arrow
----@param x number # horizontal position of the arrow
----@param y number # vertical position of the arrow
----@return Arrow
-function Arrow:new(x, y, u, v)
-    check(self, Arrow.__name__)
-    local mt = { __index = Arrow }
+---@param u number # horizontal speed of the bullet
+---@param v number # vertical speed of the bullet
+---@param x number # horizontal position of the bullet
+---@param y number # vertical position of the bullet
+---@return Bullet
+function Bullet:new(x, y, u, v)
+    check(self, Bullet.__name__)
+    local mt = { __index = Bullet }
     local members = {
         u = u,
         v = v,
@@ -39,18 +39,18 @@ function Arrow:new(x, y, u, v)
     return setmetatable(members, mt)
 end
 
----@return Arrow
-function Arrow:draw()
-    check(self, Arrow.__name__)
+---@return Bullet
+function Bullet:draw()
+    check(self, Bullet.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
 end
 
 ---@param dt number # Time elapsed since last frame (seconds)
----@return Arrow
-function Arrow:update(dt)
-    check(self, Arrow.__name__)
+---@return Bullet
+function Bullet:update(dt)
+    check(self, Bullet.__name__)
     self.age = self.age + dt
     self.v = self.v + 0.5 * State.GRAVITY_ACCELERATION * dt * dt
     self.u = self.u
@@ -67,4 +67,4 @@ function Arrow:update(dt)
     return self
 end
 
-return Arrow
+return Bullet

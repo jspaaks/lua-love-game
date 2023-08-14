@@ -5,17 +5,19 @@ local check = require "check-self"
 
 ---@class Balloons           # The collection of balloons.
 local Balloons = {
-    ---@type string          # class name
+    ---@type string          # Class name
     __name__ = "Balloons",
-    ---@type Balloon[] | nil # array that holds the balloons
-    balloons = nil,
-    ---@type table           # classes of balloons and their properties
+    ---@type Balloon[] | nil # Array that holds the balloons
+    elements = nil,
+    ---@type table           # Classes of balloons and their properties
     classes = BalloonTypes,
     ---@type Ground | nil    # Reference to the Ground object
     ground = nil,
-    ---@type Balloon[] | nil # array that holds the remaining balloons
+    ---@type number | nil    # Total number of balloons that spawn
+    nspawn = nil,
+    ---@type Balloon[] | nil # Array that holds the remaining balloons
     remaining = nil,
-    ---@type number | nil    # how fast balloons are spawning
+    ---@type number | nil    # How fast balloons are spawning
     spawn_rate = nil
 }
 
@@ -27,8 +29,9 @@ function Balloons:new(spawn_rate, ground)
     check(self, Balloons.__name__)
     local mt = { __index = Balloons }
     local members = {
-        balloons = nil,
+        elements = nil,
         ground = ground,
+        nspawn = nil,
         spawn_rate = spawn_rate
     }
     self:reset()
@@ -39,8 +42,8 @@ end
 ---@return Balloons
 function Balloons:draw()
     check(self, Balloons.__name__)
-    for _, balloon in ipairs(self.balloons) do
-        balloon:draw()
+    for _, element in ipairs(self.elements) do
+        element:draw()
     end
     return self
 end
@@ -49,8 +52,8 @@ end
 ---@return Balloons
 function Balloons:mark_all_as_dead()
     check(self, Balloons.__name__)
-    for _, balloon in ipairs(self.balloons) do
-        balloon.alive = false
+    for _, element in ipairs(self.elements) do
+        element.alive = false
     end
     return self
 end
@@ -58,7 +61,7 @@ end
 
 ---@return Balloons
 function Balloons:reset()
-    self.balloons = {}
+    self.elements = {}
     self.remaining = {}
     local width, _ = love.graphics.getDimensions()
     for _, bt in ipairs(BalloonTypes) do
@@ -76,6 +79,7 @@ function Balloons:reset()
         local j = math.random(i)
         self.remaining[i], self.remaining[j] = self.remaining[j], self.remaining[i]  -- shuffle i and j
     end
+    self.nspawn = #self.remaining
     return self
 end
 
@@ -87,21 +91,21 @@ function Balloons:update(dt)
     local width, _ = love.graphics.getDimensions()
 
     -- spawn balloons
-    if #self.remaining >= 1 and #self.balloons == 0 or math.random() < self.spawn_rate * dt then
+    if #self.remaining >= 1 and #self.elements == 0 or math.random() < self.spawn_rate * dt then
         local i = #self.remaining
-        table.insert(self.balloons, self.remaining[i])
+        table.insert(self.elements, self.remaining[i])
         table.remove(self.remaining, i)
     end
 
     -- delegate update to individual balloon instances
-    for _, balloon in ipairs(self.balloons) do
-        balloon:update(dt)
+    for _, element in ipairs(self.elements) do
+        element:update(dt)
     end
 
     -- remove dead
-    for i, balloon in ipairs(self.balloons) do
-        if not balloon.alive then
-            table.remove(self.balloons, i)
+    for i, element in ipairs(self.elements) do
+        if not element.alive then
+            table.remove(self.elements, i)
         end
     end
 

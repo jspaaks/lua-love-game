@@ -36,10 +36,11 @@ function PausedScreen:draw()
     love.graphics.setFont(State.fonts["normal"])
     love.graphics.printf("Q TO QUIT  /  ENTER TO RESUME", 0, 450, 1280, "center")
     love.graphics.setFont(State.fonts["small"])
-    local score = string.format("SCORE: %d", State.screen:enter("playing").arrows.remaining + State.screen:enter("playing").collisions.cvalue)
-    local remaining = string.format("BULLETS: %d", State.screen:enter("playing").arrows.remaining)
-    love.graphics.print(score, 20, 1 * 24)
-    love.graphics.print(remaining, 20, 2 * 24)
+    local nhit = State.screen:enter("playing").collisions.nhit
+    local nspawn = State.screen:enter("playing").balloons.nspawn
+    local nbullets = State.screen:enter("playing").bullets.nremaining
+    love.graphics.print(string.format("SCORE: %d / %d", nhit, nspawn), 20, 1 * 24)
+    love.graphics.print(string.format("BULLETS: %d", nbullets), 20, 2 * 24)
     return self
 end
 

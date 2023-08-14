@@ -5,8 +5,9 @@ local HitScores = {
     ---@type string # class name
     __name__ = "HitScores",
     ---@type HitScore[] | {} # array that holds the hit scores
-    hit_scores = {}
+    elements = {}
 }
+
 
 ---@return HitScores
 function HitScores:new()
@@ -16,23 +17,33 @@ function HitScores:new()
     return setmetatable(members, mt)
 end
 
+
 ---@return HitScores
 function HitScores:draw()
     check(self, HitScores.__name__)
-    for _, hit_score in ipairs(self.hit_scores) do
-        hit_score:draw()
+    for _, element in ipairs(self.elements) do
+        element:draw()
     end
     return self
 end
 
+
 ---@return HitScores
 function HitScores:mark_all_as_dead()
     check(self, HitScores.__name__)
-    for _, hit_score in ipairs(self.hit_scores) do
-        hit_score.alive = false
+    for _, element in ipairs(self.elements) do
+        element.alive = false
     end
     return self
 end
+
+
+---@return HitScores
+function HitScores:reset(dt)
+    self.elements = {}
+    return self
+end
+
 
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return HitScores
@@ -40,18 +51,19 @@ function HitScores:update(dt)
     check(self, HitScores.__name__)
 
     -- delegate update to individual instances
-    for _, hit_score in ipairs(self.hit_scores) do
-        hit_score:update(dt)
+    for _, element in ipairs(self.elements) do
+        element:update(dt)
     end
 
     -- remove dead
-    for i, hit_score in ipairs(self.hit_scores) do
-        if not hit_score.alive then
-            table.remove(self.hit_scores, i)
+    for i, element in ipairs(self.elements) do
+        if not element.alive then
+            table.remove(self.elements, i)
         end
     end
 
     return self
 end
+
 
 return HitScores

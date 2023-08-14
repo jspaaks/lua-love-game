@@ -10,8 +10,8 @@ local Balloon = {
     alive = true,
     ---@type number[] # array of RGBA brightness
     color = {0, 128, 128, 255},
-    ---@type number # balloon radius
-    radius = 10,
+    ---@type number | nil # balloon radius
+    radius = nil,
     ---@type table<"pop"|"score", love.Source> # balloon sounds
     sounds = {},
     ---@type number # horizontal speed
