@@ -90,6 +90,7 @@ function PlayingScreen:reset()
     self.balloons:reset()
     self.bullets:reset()
     self.collisions:reset()
+    self.turret:reset()
 end
 
 return PlayingScreen

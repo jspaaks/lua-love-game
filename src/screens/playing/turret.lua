@@ -50,6 +50,7 @@ function Turret:new(ground)
     check(self, Turret.__name__)
     local mt = { __index = Turret }
     local members = {
+        angle = self.angle_max,
         ground = ground,
         y = ground.y - self.base.h
     }
@@ -77,6 +78,14 @@ function Turret:draw()
 	love.graphics.pop()
     return self
 end
+
+
+---@return Turret
+function Turret:reset()
+    self.angle = self.angle_max
+    return self
+end
+
 
 ---@return Turret
 function Turret:update(dt)
