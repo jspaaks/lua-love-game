@@ -35,7 +35,9 @@ function GameoverScreen:draw()
     -- screen title
     love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
     love.graphics.setFont(State.fonts["title"])
-    love.graphics.printf("GAME OVER", 1280 / 2 - 250, 275, 500, "center")
+    love.graphics.printf("GAME OVER", 0, 275, 1280, "center")
+    love.graphics.setFont(State.fonts["small"])
+    love.graphics.printf(State.screen:enter("playing").exit_reason, 0, 350, 1280, "center")
 
     -- scores
     local nhit = State.screen:enter("playing").collisions.nhit
@@ -47,8 +49,9 @@ function GameoverScreen:draw()
 
 
     -- options to continue
-    love.graphics.setFont(State.fonts["normal"])
-    love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY AGAIN", 0, 450, 1280, "center")
+    love.graphics.setFont(State.fonts["small"])
+    local y = State.ground.y + State.ground.thickness * (1 / 2) - State.fonts.small:getHeight() / 2
+    love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY AGAIN", 0, y, 1280, "center")
 
     return self
 end

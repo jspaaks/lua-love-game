@@ -7,7 +7,7 @@ local Moon = {
     ---@type number[] # RGBA brightness
     color = {224 / 255,  220 / 255, 191 / 255, 255 / 255},
     ---@type number # radius
-    radius = 30,
+    radius = 45,
     ---@type number # horizontal position
     from_right = 100,
     ---@type number # vertical position

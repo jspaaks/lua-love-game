@@ -32,10 +32,10 @@ function PausedScreen:draw()
     State.moon:draw()
     love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
     love.graphics.setFont(State.fonts["title"])
-    love.graphics.printf("PAUSED", 1280 / 2 - 250, 300, 500, "center")
-    love.graphics.setFont(State.fonts["normal"])
-    love.graphics.printf("Q TO QUIT  /  ENTER TO RESUME", 0, 450, 1280, "center")
+    love.graphics.printf("PAUSED", 0, 275, 1280, "center")
     love.graphics.setFont(State.fonts["small"])
+    local y = State.ground.y + State.ground.thickness * (1 / 2) - State.fonts.small:getHeight() / 2
+    love.graphics.printf("Q TO QUIT  /  ENTER TO RESUME", 0, y, 1280, "center")
     local nhit = State.screen:enter("playing").collisions.nhit
     local nspawn = State.screen:enter("playing").balloons.nspawn
     local nbullets = State.screen:enter("playing").bullets.nremaining

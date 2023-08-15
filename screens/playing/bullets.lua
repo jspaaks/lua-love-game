@@ -1,22 +1,20 @@
 local Bullet = require "screens.playing.bullet"
 local check = require "check-self"
 
----@class Bullets # The collection of bullets.
+---@class Bullets           # The collection of bullets.
 local Bullets = {
-    ---@type string # class name
+    ---@type string         # class name
     __name__ = "Bullets",
     ---@type Bullet[] | nil # array that holds the bullets
     elements = nil,
-    ---@type number  # how many bullets are remaining at the beginning of the run
+    ---@type number         # how many bullets are remaining at the beginning of the run
     nalotted = 10,
-    ---@type number | nil  # how many bullets are remaining
+    ---@type number | nil   # how many bullets are remaining
     nremaining = nil,
-    ---@type Turret | nil # where bullets are spawning
-    turret = nil,
-    ---@type number | nil  # horizontal position where bullets are spawning
-    x = nil,
-    ---@type number | nil  # vertical position where bullets are spawning
-    y = nil
+    ---@type number         # speed of the bullet
+    speed = 220,
+    ---@type Turret | nil   # where bullets are spawning
+    turret = nil
 }
 
 
@@ -28,9 +26,7 @@ function Bullets:new(turret)
     local members = {
         elements = nil,
         turret = turret,
-        nremaining = nil,
-        x = turret.x,
-        y = turret.y
+        nremaining = nil
     }
     Bullets:reset()
     return setmetatable(members, mt)
@@ -73,7 +69,11 @@ function Bullets:update(dt)
     -- spawn new bullet based on global keypressed state
     if State.keypressed["space"] then
         if self.nremaining > 0 then
-            local element = Bullet:new(self.x, self.y, 280, -50)
+            local u = math.cos(self.turret.angle) * self.speed
+            local v = math.sin(self.turret.angle) * self.speed
+            local x = self.turret.x + math.cos(self.turret.angle) * self.turret.barrel.w
+            local y = self.turret.y + math.sin(self.turret.angle) * self.turret.barrel.w
+            local element = Bullet:new(x, y, u, v)
             table.insert(self.elements, element)
             self.turret.sounds.shot:clone():play()
             self.nremaining = self.nremaining - 1
