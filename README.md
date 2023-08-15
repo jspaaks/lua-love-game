@@ -9,5 +9,7 @@ Screenshot:
 Run with:
 
 ```shell
+cd somedir
+git clone https://github.com/jspaaks/lua-love-game .
 love .
 ```
