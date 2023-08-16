@@ -1,8 +1,8 @@
 local Bar = require "bar"
 
 
----@class Score
-local Score = {
+---@class Legend
+local Legend = {
     ---@type number
     x = 60,
     ---@type number
@@ -19,8 +19,8 @@ local Score = {
     bars = {}
 }
 
-function Score:new()
-    local mt = { __index = Score }
+function Legend:new()
+    local mt = { __index = Legend }
     local members = {}
     for i = 1, self.nbars, 1 do
         local bar = Bar:new(self.x + (i - 1) * (self.bar.spacing + self.bar.width), self.y, self.bar.width, self.bar.height)
@@ -29,12 +29,12 @@ function Score:new()
     return setmetatable(members, mt)
 end
 
-function Score:update(dt)
+function Legend:update(dt)
     return self
 end
 
 
-function Score:draw(dt)
+function Legend:draw(dt)
     local x1 = self.x
     local x0 = x1 - 8
     local x2 = x1 + self.nbars * (self.bar.spacing + self.bar.width) - self.bar.spacing
@@ -71,6 +71,8 @@ function Score:draw(dt)
         love.graphics.setColor(State.colors.orange)
     elseif nbullets < 30 then
         love.graphics.setColor(State.colors.green)
+    else
+        love.graphics.setColor(love.graphics.getBackgroundColor())
     end
     love.graphics.rectangle("fill", x1, y2, x2 - x1, 44)
     love.graphics.setColor(State.colors.lightgray)
@@ -94,4 +96,4 @@ function Score:draw(dt)
     return self
 end
 
-return Score
+return Legend

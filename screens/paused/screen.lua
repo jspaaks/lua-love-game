@@ -17,7 +17,7 @@ end
 function PausedScreen:update()
     State.ground:update()
     State.moon:update()
-    State.score:update()
+    State.legend:update()
     if State.keypressed["return"] then
         State.screen:change_to("playing")
     elseif State.keypressed["q"] then
@@ -39,8 +39,8 @@ function PausedScreen:draw()
     love.graphics.setFont(State.fonts["title"])
     love.graphics.printf("PAUSED", 0, 275, 1280, "center")
 
-    -- scores
-    State.score:draw()
+    -- legend
+    State.legend:draw()
 
     -- options to continue
     love.graphics.setColor(State.colors.lightgray)

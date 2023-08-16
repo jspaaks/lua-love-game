@@ -39,9 +39,9 @@ function GameoverScreen:draw()
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(State.screen:enter("playing").exit_reason, 0, 350, 1280, "center")
 
-    -- scores
+    -- legend
     State.screen:enter("playing").balloons.elements = {}
-    State.score:draw()
+    State.legend:draw()
 
     -- options to continue
     love.graphics.setColor(State.colors.lightgray)

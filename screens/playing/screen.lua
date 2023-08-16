@@ -44,7 +44,7 @@ end
 ---@return PlayingScreen
 function PlayingScreen:update(dt)
     State.ground:update()
-    State.score:update(dt)
+    State.legend:update(dt)
     self.turret:update(dt)
     self.bullets:update(dt)
     self.balloons:update(dt)
@@ -78,8 +78,8 @@ function PlayingScreen:draw()
     self.turret:draw()
     self.collisions:draw()
 
-    -- scores
-    State.score:draw()
+    -- legend
+    State.legend:draw()
 
     -- key hints
     local y0 = self.ground.y + self.ground.thickness * (1 / 3) - State.fonts.small:getHeight() / 2

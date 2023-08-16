@@ -7,7 +7,7 @@ local PlayingScreen = require "screens.playing.screen"
 local PausedScreen = require "screens.paused.screen"
 local GameoverScreen = require "screens.gameover.screen"
 local PerfectScoreScreen = require "screens.perfectscore.screen"
-local Score = require "score"
+local Legend = require "legend"
 
 State = {}
 
@@ -58,7 +58,7 @@ function love.load()
             state = PerfectScoreScreen:new()
         }
     })
-    State.score = Score:new()
+    State.legend = Legend:new()
 end
 
 function love.update(dt)
