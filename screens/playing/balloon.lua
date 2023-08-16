@@ -48,7 +48,16 @@ end
 function Balloon:draw()
     check(self, Balloon.__name__)
     love.graphics.setColor(self.color)
-    love.graphics.circle("fill", self.x, self.y, self.radius)
+    local hitbuffer_factor = 1.2
+    love.graphics.arc("fill", self.x, self.y, self.radius / hitbuffer_factor, 0.75 * math.pi, math.pi * 2.25)
+    --love.graphics.circle("fill", self.x, self.y, self.radius / hitbuffer_factor)
+    local vertices = {
+        self.x, self.y,
+        self.x + self.radius / hitbuffer_factor / math.sqrt(2),  self.y + self.radius / hitbuffer_factor / math.sqrt(2),
+        self.x, self.y + self.radius,
+        self.x - self.radius / hitbuffer_factor / math.sqrt(2),  self.y + self.radius / hitbuffer_factor / math.sqrt(2),
+    }
+    love.graphics.polygon("fill", vertices)
     return self
 end
 

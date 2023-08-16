@@ -2,7 +2,7 @@ return {
     {
         color = {232 / 255, 86 / 255, 37 / 255, 255 / 255},   -- red
         n = 20,
-        radius = 5,
+        radius = 8,
         sounds = {
             pop = love.audio.newSource("sounds/pop.wav", "static"),
             score = love.audio.newSource("sounds/hit3.wav", "static")
