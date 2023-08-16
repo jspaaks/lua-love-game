@@ -14,3 +14,4 @@
 - wind effect, layered
 - small random variation in balloon's x and y
 - hiscore table
+- add objects that you can't hit, e.g. birds
