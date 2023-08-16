@@ -40,6 +40,7 @@ function GameoverScreen:draw()
     love.graphics.printf(State.screen:enter("playing").exit_reason, 0, 350, 1280, "center")
 
     -- scores
+    State.screen:enter("playing").balloons.elements = {}
     State.score:draw()
 
     -- options to continue

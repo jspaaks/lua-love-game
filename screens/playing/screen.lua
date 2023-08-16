@@ -26,7 +26,7 @@ local PlayingScreen = {
 ---@param ground Ground # reference to the Ground object
 function PlayingScreen:new(ground)
     local mt = { __index = PlayingScreen }
-    local balloons_spawn_rate = 0.5 * 10
+    local balloons_spawn_rate = 0.5
     local turret = Turret:new(ground)
     local bullets = Bullets:new(turret)
     local balloons = Balloons:new(balloons_spawn_rate, ground)

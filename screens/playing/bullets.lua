@@ -8,7 +8,7 @@ local Bullets = {
     ---@type Bullet[] | nil # array that holds the bullets
     elements = nil,
     ---@type number         # how many bullets are remaining at the beginning of the run
-    nalotted = 100,
+    nalotted = 12,
     ---@type number | nil   # how many bullets are remaining
     nremaining = nil,
     ---@type number         # speed of the bullet

@@ -63,14 +63,18 @@ function Score:draw(dt)
 
     -- bullets
     local nbullets = State.screen:enter("playing").bullets.nremaining
-    love.graphics.setColor(1, 1, 1, 1)
+    if nbullets < 10 then
+        love.graphics.setColor(1, 0, 0, 1)
+    else
+        love.graphics.setColor(1, 1, 1, 1)
+    end
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(string.format("BULLETS"), x1, y2, (x2 - x1) * 0.55, "right")
     love.graphics.print(string.format("%d", nbullets), x1 + (x2 - x1) * 0.58, y2)
 
     -- bars
-    local ngreen = math.floor(nhit / self.nbars)
-    local nred = math.floor(nescape / self.nbars)
+    local ngreen = math.floor((nhit / nspawn) * self.nbars)
+    local nred = math.floor((nescape / nspawn) * self.nbars)
     for i, bar in ipairs(self.bars) do
         if i <= ngreen then
             love.graphics.setColor(0,1,0,1)
