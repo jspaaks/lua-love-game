@@ -1,7 +1,7 @@
 return {
     {
         color = {232 / 255, 86 / 255, 37 / 255, 255 / 255},   -- red
-        n = 20,
+        n = 2,
         radius = 5,
         sounds = {
             pop = love.audio.newSource("sounds/pop.wav", "static"),
@@ -11,7 +11,7 @@ return {
     },
     {
         color = {219 / 255, 149 / 255, 29 / 255, 255 / 255},  -- orange
-        n = 30,
+        n = 3,
         radius = 10,
         sounds = {
             pop = love.audio.newSource("sounds/pop.wav", "static"),
@@ -21,7 +21,7 @@ return {
     },
     {
         color = {219 / 255, 222 / 255, 80 / 255, 255 / 255},  -- yellow
-        n = 50,
+        n = 5,
         radius = 14,
         sounds = {
             pop = love.audio.newSource("sounds/pop.wav", "static"),

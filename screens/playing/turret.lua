@@ -27,7 +27,7 @@ local Turret = {
         ---@type number | nil # width
         w = 70,
         ---@type number | nil # height
-        h = 10
+        h = 14
     },
     ---@type number[] # Turret color
     color = {50 / 255, 64 / 255, 46 / 255, 255 / 255},

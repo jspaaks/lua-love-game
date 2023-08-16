@@ -29,12 +29,21 @@ end
 
 ---@return PausedScreen
 function PausedScreen:draw()
+
+    -- screen background elements
     State.ground:draw()
     State.moon:draw()
-    State.score:draw()
-    love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
+
+    -- screen title
+    love.graphics.setColor(State.colors.white)
     love.graphics.setFont(State.fonts["title"])
     love.graphics.printf("PAUSED", 0, 275, 1280, "center")
+
+    -- scores
+    State.score:draw()
+
+    -- options to continue
+    love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
     local y = State.ground.y + State.ground.thickness * (1 / 2) - State.fonts.small:getHeight() / 2
     love.graphics.printf("Q TO QUIT  /  ENTER TO RESUME", 0, y, 1280, "center")

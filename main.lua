@@ -6,6 +6,7 @@ local StartScreen = require "screens.start.screen"
 local PlayingScreen = require "screens.playing.screen"
 local PausedScreen = require "screens.paused.screen"
 local GameoverScreen = require "screens.gameover.screen"
+local PerfectScoreScreen = require "screens.perfectscore.screen"
 local Score = require "score"
 
 State = {}
@@ -24,6 +25,15 @@ function love.load()
     }
     State.keypressed = {}
     State.showfps = false
+    State.colors = {
+        ["magenta"] = {200 / 255, 0, 161 / 255, 1},
+        ["red"] = {200 / 255, 0, 0, 1},
+        ["orange"] = {200 / 255, 161 / 255, 0, 1},
+        ["green"] = {0, 161 / 255, 0, 1},
+        ["lightgray"] = {0.9, 0.9, 0.9, 1},
+        ["middlegray"] = {0.5, 0.5, 0.5, 1},
+        ["white"] = {1, 1, 1, 1}
+    }
     State.moon = Moon:new()
     State.ground = Ground:new(ground_thickness)
     State.screen = Fsm:create({
@@ -42,6 +52,10 @@ function love.load()
         {
             name = "gameover",
             state = GameoverScreen:new()
+        },
+        {
+            name = "perfectscore",
+            state = PerfectScoreScreen:new()
         }
     })
     State.score = Score:new()

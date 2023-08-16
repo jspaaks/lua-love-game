@@ -53,7 +53,11 @@ function PlayingScreen:update(dt)
     local no_more_bullets = self.bullets.nremaining <= 0 and #self.bullets.elements == 0
     if no_more_balloons then
         self.exit_reason = "No more balloons"
-        State.screen:change_to("gameover")
+        if self.collisions.nhit == self.balloons.nspawn then
+            State.screen:change_to("perfectscore")
+        else
+            State.screen:change_to("gameover")
+        end
     elseif no_more_bullets then
         self.exit_reason = "Out of bullets"
         State.screen:change_to("gameover")
@@ -65,16 +69,22 @@ end
 
 ---@return PlayingScreen
 function PlayingScreen:draw()
+
+    -- screen elements
     State.moon:draw()
     self.bullets:draw()
     self.balloons:draw()
     State.ground:draw()
     self.turret:draw()
     self.collisions:draw()
+
+    -- scores
     State.score:draw()
+
+    -- key hints
     local y0 = self.ground.y + self.ground.thickness * (1 / 3) - State.fonts.small:getHeight() / 2
     local y1 = self.ground.y + self.ground.thickness * (2 / 3) - State.fonts.small:getHeight() / 2
-    love.graphics.setColor(0.9, 0.9, 0.9, 0.9)
+    love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf("W: TURRET UP", 0, y0, 1280 / 2, "center")
     love.graphics.printf("S: TURRENT DOWN", 0, y1, 1280 / 2, "center")

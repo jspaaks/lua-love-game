@@ -10,7 +10,7 @@ local Score = {
     ---@type table
     bar = {
         spacing = 5,
-        width = 25,
+        width = 15,
         height = 20,
     },
     ---@type number
@@ -46,7 +46,7 @@ function Score:draw(dt)
 
     -- hit
     local nhit = State.screen:enter("playing").collisions.nhit
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(string.format("%d", nhit), x0 - 100, y1, 100, "right")
     love.graphics.printf("HIT", x1, y0, 100, "left")
@@ -56,32 +56,38 @@ function Score:draw(dt)
     local nrem = #State.screen:enter("playing").balloons.remaining
     local nelems = #State.screen:enter("playing").balloons.elements
     local nescape = nspawn - nrem - nelems - nhit
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf("MISS", x2 - 100, y0, 100, "right")
     love.graphics.printf(string.format("%d", nescape), x3, y1, 100, "left")
 
     -- bullets
     local nbullets = State.screen:enter("playing").bullets.nremaining
-    if nbullets < 10 then
-        love.graphics.setColor(1, 0, 0, 1)
-    else
-        love.graphics.setColor(1, 1, 1, 1)
+    if nbullets < 5 then
+        love.graphics.setColor(State.colors.magenta)
+    elseif nbullets < 10 then
+        love.graphics.setColor(State.colors.red)
+    elseif nbullets < 20 then
+        love.graphics.setColor(State.colors.orange)
+    elseif nbullets < 30 then
+        love.graphics.setColor(State.colors.green)
     end
+    love.graphics.rectangle("fill", x1, y2, x2 - x1, 44)
+    love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
-    love.graphics.printf(string.format("BULLETS"), x1, y2, (x2 - x1) * 0.55, "right")
-    love.graphics.print(string.format("%d", nbullets), x1 + (x2 - x1) * 0.58, y2)
+    love.graphics.printf(string.format("BULLETS"), x1, y2, (x2 - x1) * 0.63, "right")
+    love.graphics.print(string.format("%d", nbullets), x1 + (x2 - x1) * 0.68, y2)
 
     -- bars
     local ngreen = math.floor((nhit / nspawn) * self.nbars)
     local nred = math.floor((nescape / nspawn) * self.nbars)
     for i, bar in ipairs(self.bars) do
         if i <= ngreen then
-            love.graphics.setColor(0,1,0,1)
+            love.graphics.setColor(State.colors.green)
         elseif i > self.nbars - nred then
-            love.graphics.setColor(1,0,0,1)
+            love.graphics.setColor(State.colors.red)
         else
-            love.graphics.setColor(0.5,0.5,0.5,1)
+            love.graphics.setColor(State.colors.middlegray)
         end
         bar:draw()
     end
