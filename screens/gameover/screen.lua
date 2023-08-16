@@ -33,22 +33,17 @@ function GameoverScreen:draw()
     State.moon:draw()
 
     -- screen title
-    love.graphics.setColor(255 / 255, 255 / 255, 255 / 255, 255 / 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(State.fonts["title"])
     love.graphics.printf("GAME OVER", 0, 275, 1280, "center")
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(State.screen:enter("playing").exit_reason, 0, 350, 1280, "center")
 
     -- scores
-    local nhit = State.screen:enter("playing").collisions.nhit
-    local nspawn = State.screen:enter("playing").balloons.nspawn
-    local nbullets = State.screen:enter("playing").bullets.nremaining
-    love.graphics.setFont(State.fonts["small"])
-    love.graphics.print(string.format("SCORE: %d / %d", nhit, nspawn), 20, 1 * 24)
-    love.graphics.print(string.format("BULLETS: %d", nbullets), 20, 2 * 24)
-
+    State.score:draw()
 
     -- options to continue
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(State.fonts["small"])
     local y = State.ground.y + State.ground.thickness * (1 / 2) - State.fonts.small:getHeight() / 2
     love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY AGAIN", 0, y, 1280, "center")

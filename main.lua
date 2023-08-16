@@ -6,7 +6,7 @@ local StartScreen = require "screens.start.screen"
 local PlayingScreen = require "screens.playing.screen"
 local PausedScreen = require "screens.paused.screen"
 local GameoverScreen = require "screens.gameover.screen"
-
+local Score = require "score"
 
 State = {}
 
@@ -44,6 +44,7 @@ function love.load()
             state = GameoverScreen:new()
         }
     })
+    State.score = Score:new()
 end
 
 function love.update(dt)
