@@ -74,7 +74,7 @@ function Legend:draw(dt)
     else
         love.graphics.setColor(love.graphics.getBackgroundColor())
     end
-    love.graphics.rectangle("fill", x1, y2, x2 - x1, 44)
+    love.graphics.rectangle("fill", x1, y2, x2 - x1, 44, 7, 7, 25)
     love.graphics.setColor(State.colors.lightgray)
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(string.format("BULLETS"), x1, y2, (x2 - x1) * 0.63, "right")
