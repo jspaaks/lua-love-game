@@ -59,7 +59,7 @@ function Bullets:update(dt)
             local v = math.sin(self.turret.angle) * self.speed
             local x = self.turret.x + math.cos(self.turret.angle) * self.turret.barrel.w
             local y = self.turret.y + math.sin(self.turret.angle) * self.turret.barrel.w
-            local element = Bullet:new(x, y, u, v)
+            local element = Bullet(x, y, u, v)
             table.insert(self.elements, element)
             self.turret.sounds.shot:clone():play()
             self.nremaining = self.nremaining - 1
