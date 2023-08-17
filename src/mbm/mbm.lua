@@ -34,7 +34,7 @@ function love.load()
         ["middlegray"] = {0.5, 0.5, 0.5, 1},
         ["white"] = {1, 1, 1, 1}
     }
-    State.moon = Moon:new()
+    State.moon = Moon()
     State.ground = Ground(ground_thickness)
     State.screen = Fsm:create({
         {

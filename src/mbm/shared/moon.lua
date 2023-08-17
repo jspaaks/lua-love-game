@@ -1,38 +1,25 @@
-local check = require "mbm.shared.check-self"
+local Base = require "knife.base"
 
----@class Moon # The Moon.
-local Moon = {
-    ---@type string # class name
-    __name__ = "Moon",
-    ---@type number[] # RGBA brightness
-    color = {224 / 255,  220 / 255, 191 / 255, 255 / 255},
-    ---@type number # radius
-    radius = 45,
-    ---@type number # horizontal position
-    from_right = 100,
-    ---@type number # vertical position
-    from_top = 70
-}
+
+---@class Moon
+local Moon = Base:extend()
 
 ---@return Moon
-function Moon:new()
-    check(self, Moon.__name__)
-    local mt = { __index = Moon }
-    local members = {
-        __name__ = "Moon",
-    }
-    return setmetatable(members, mt)
+function Moon:constructor()
+    self.color = {224 / 255,  220 / 255, 191 / 255, 255 / 255}
+    self.radius = 45
+    self.from_right = 100
+    self.from_top = 70
+    return self
 end
 
 
 function Moon:update()
-    check(self, Moon.__name__)
     return self
 end
 
 
 function Moon:draw()
-    check(self, Moon.__name__)
     local width, _ = love.graphics.getDimensions()
     love.graphics.setColor(self.color)
     local x1 = width - self.from_right
