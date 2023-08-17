@@ -70,7 +70,7 @@ function Balloons:reset()
             local y = State.ground.y + bt.radius
             local u = 0
             local v = -20
-            local balloon = Balloon:new(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
+            local balloon = Balloon(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
             table.insert(self.remaining, balloon)
         end
     end
