@@ -36,7 +36,7 @@ function love.load()
     }
     State.moon = Moon()
     State.ground = Ground(ground_thickness)
-    State.screen = Fsm:create({
+    State.screen = Fsm({
         {
             name = "start",
             state = StartScreen:new()
