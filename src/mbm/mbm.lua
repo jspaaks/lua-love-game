@@ -39,23 +39,23 @@ function love.load()
     State.screen = Fsm({
         {
             name = "start",
-            state = StartScreen:new()
+            state = StartScreen()
         },
         {
             name = "playing",
-            state = PlayingScreen:new(State.ground)
+            state = PlayingScreen(State.ground)
         },
         {
             name = "paused",
-            state = PausedScreen:new()
+            state = PausedScreen()
         },
         {
             name = "gameover",
-            state = GameoverScreen:new()
+            state = GameoverScreen()
         },
         {
             name = "perfectscore",
-            state = PerfectScoreScreen:new()
+            state = PerfectScoreScreen()
         }
     })
     State.legend = Legend()

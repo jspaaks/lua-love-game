@@ -1,3 +1,4 @@
+local Base = require "knife.base"
 local Bullets = require "mbm.screens.playing.bullets"
 local Balloons = require "mbm.screens.playing.balloons"
 local Turret = require "mbm.screens.playing.turret"
@@ -5,40 +6,21 @@ local Collisions = require "mbm.screens.playing.collisions"
 
 
 ---@class PlayingScreen # The PlayingScreen
-local PlayingScreen = {
-    ---@type string # class name
-    __name__ = "PlayingScreen",
-    ---@type Bullets # Reference to the Bullets collection
-    bullets = nil,
-    ---@type Balloons # Reference to the Balloons collection
-    balloons = nil,
-    ---@type string # Reason for gameover
-    exit_reason = nil,
-    ---@type Turret # Reference to the Turret object
-    turret = nil,
-    ---@type Collisions # Reference to the Collisions collection
-    collisions = nil,
-    ---@type Ground # Reference to the Ground object
-    ground = nil,
-}
+local PlayingScreen = Base:extend()
+
 
 ---@return PlayingScreen
 ---@param ground Ground # reference to the Ground object
-function PlayingScreen:new(ground)
-    local mt = { __index = PlayingScreen }
+function PlayingScreen:constructor(ground)
+
     local balloons_spawn_rate = 0.5
-    local turret = Turret:new(ground)
-    local bullets = Bullets:new(turret)
-    local balloons = Balloons:new(balloons_spawn_rate, ground)
-    local members = {
-        bullets = bullets,
-        balloons = balloons,
-        exit_reason = nil,
-        turret = turret,
-        collisions = Collisions:new(bullets, balloons),
-        ground = ground
-    }
-    return setmetatable(members, mt)
+    self.ground = ground
+    self.turret = Turret:new(ground)
+    self.bullets = Bullets:new(self.turret)
+    self.balloons = Balloons:new(balloons_spawn_rate, ground)
+    self.collisions = Collisions:new(self.bullets, self.balloons)
+    self.exit_reason = nil
+    return self
 end
 
 ---@return PlayingScreen

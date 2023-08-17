@@ -1,15 +1,12 @@
+local Base = require "knife.base"
+
 ---@class PerfectScoreScreen # The PerfectScoreScreen
-local PerfectScoreScreen = {
-    ---@type string # class name
-    __name__ = "PerfectScoreScreen",
-}
+local PerfectScoreScreen = Base:extend()
 
 
 ---@return PerfectScoreScreen
-function PerfectScoreScreen:new()
-    local mt = { __index = PerfectScoreScreen }
-    local members = {}
-    return setmetatable(members, mt)
+function PerfectScoreScreen:constructor()
+    return self
 end
 
 

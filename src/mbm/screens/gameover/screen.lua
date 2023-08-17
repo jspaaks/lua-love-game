@@ -1,15 +1,12 @@
----@class GameoverScreen # The GameoverScreen
-local GameoverScreen = {
-    ---@type string # class name
-    __name__ = "GameoverScreen",
-}
+local Base = require "knife.base"
+
+---@class GameoverScreen
+local GameoverScreen = Base:extend()
 
 
 ---@return GameoverScreen
-function GameoverScreen:new()
-    local mt = { __index = GameoverScreen }
-    local members = {}
-    return setmetatable(members, mt)
+function GameoverScreen:constructor()
+    return self
 end
 
 
