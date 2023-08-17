@@ -1,33 +1,31 @@
-local Bar = require "bar"
+local Base = require "knife.base"
+local Bar = require "mbm.shared.bar"
 
 
 ---@class Legend
-local Legend = {
-    ---@type number
-    x = 60,
-    ---@type number
-    y = 49,
-    ---@type table
-    bar = {
+local Legend = Base:extend()
+
+
+function Legend:constructor()
+    self.x = 60
+    self.y = 49
+    self.bar = {
         spacing = 5,
         width = 15,
         height = 20,
-    },
-    ---@type number
-    nbars = 10,
-    ---@type Bar[] | {}
-    bars = {}
-}
-
-function Legend:new()
-    local mt = { __index = Legend }
-    local members = {}
+    }
+    self.nbars = 10
+    self.bars = {}
     for i = 1, self.nbars, 1 do
-        local bar = Bar:new(self.x + (i - 1) * (self.bar.spacing + self.bar.width), self.y, self.bar.width, self.bar.height)
+        local x = self.x + (i - 1) * (self.bar.spacing + self.bar.width)
+        local y = self.y
+        local w = self.bar.width
+        local h = self.bar.height
+        local bar = Bar(x, y, w, h)
         table.insert(self.bars, bar)
     end
-    return setmetatable(members, mt)
 end
+
 
 function Legend:update(dt)
     return self

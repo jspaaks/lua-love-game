@@ -1,26 +1,19 @@
-local check = require "check-self"
+local Base = require "knife.base"
+
 
 ---@class HitEffects # The collection of hit effects.
-local HitEffects = {
-    ---@type string # class name
-    __name__ = "HitEffects",
-    ---@type HitEffect[] | {} # array that holds the hit effects
-    elements = {}
-}
+local HitEffects = Base:extend()
 
 
 ---@return HitEffects
-function HitEffects:new()
-    check(self, HitEffects.__name__)
-    local mt = { __index = HitEffects }
-    local members = {}
-    return setmetatable(members, mt)
+function HitEffects:constructor()
+    self.elements = {}
+    return self
 end
 
 
 ---@return HitEffects
 function HitEffects:draw()
-    check(self, HitEffects.__name__)
     for _, hit in ipairs(self.elements) do
         hit:draw()
     end
@@ -30,7 +23,6 @@ end
 
 ---@return HitEffects
 function HitEffects:mark_all_as_dead()
-    check(self, HitEffects.__name__)
     for _, hit in ipairs(self.elements) do
         hit.alive = false
     end
@@ -41,7 +33,6 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return HitEffects
 function HitEffects:update(dt)
-    check(self, HitEffects.__name__)
 
     -- delegate update to individual instances
     for _, element in ipairs(self.elements) do

@@ -1,15 +1,13 @@
----@class PausedScreen # The PausedScreen
-local PausedScreen = {
-    ---@type string # class name
-    __name__ = "PausedScreen",
-}
+local Base = require "knife.base"
+
+
+---@class PausedScreen
+local PausedScreen = Base:extend()
 
 
 ---@return PausedScreen
-function PausedScreen:new()
-    local mt = { __index = PausedScreen }
-    local members = {}
-    return setmetatable(members, mt)
+function PausedScreen:constructor()
+    return self
 end
 
 

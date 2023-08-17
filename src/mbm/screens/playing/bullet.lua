@@ -1,47 +1,44 @@
-local check = require "check-self"
+local Base = require "knife.base"
 
 ---@class Bullet # The Bullet class.
-local Bullet = {
-    ---@type string # class name
-    __name__ = "Bullet",
-    ---@type number # How old the bullet is
-    age = 0,
-    ---@type boolean # Whether the bullet is still alive
-    alive = true,
-    ---@type number[] # RGBA brightness
-    color = {0, 128, 128, 255},
-    ---@type number | nil # bullet radius
-    radius = 2,
-    ---@type number | nil # horizontal speed
-    u = nil,
-    ---@type number | nil # vertical speed
-    v = nil,
-    ---@type number | nil # horizontal position
-    x = nil,
-    ---@type number | nil # vertical position
-    y = nil
-}
+local Bullet = Base:extend()
+
 
 ---@param u number # horizontal speed of the bullet
 ---@param v number # vertical speed of the bullet
 ---@param x number # horizontal position of the bullet
 ---@param y number # vertical position of the bullet
 ---@return Bullet
-function Bullet:new(x, y, u, v)
-    check(self, Bullet.__name__)
-    local mt = { __index = Bullet }
-    local members = {
-        u = u,
-        v = v,
-        x = x,
-        y = y
-    }
-    return setmetatable(members, mt)
+function Bullet:constructor(x, y, u, v)
+    ---@type number             # How old the bullet is
+    self.age = 0
+
+    ---@type boolean            # Whether the bullet is still alive
+    self.alive = true
+
+    ---@type number[]           # RGBA brightness
+    self.color = {0, 128, 128, 255}
+
+    ---@type number             # bullet radius
+    self.radius = 2
+
+    ---@type number             # horizontal speed
+    self.u = u
+
+    ---@type number             # vertical speed
+    self.v = v
+
+    ---@type number             # horizontal position
+    self.x = x
+
+    ---@type number             # vertical position
+    self.y = y
+
+    return self
 end
 
 ---@return Bullet
 function Bullet:draw()
-    check(self, Bullet.__name__)
     love.graphics.setColor(self.color)
     love.graphics.circle("fill", self.x, self.y, self.radius)
     return self
@@ -50,7 +47,6 @@ end
 ---@param dt number # Time elapsed since last frame (seconds)
 ---@return Bullet
 function Bullet:update(dt)
-    check(self, Bullet.__name__)
     self.age = self.age + dt
     self.v = self.v + 0.5 * State.GRAVITY_ACCELERATION * dt * dt
     self.u = self.u

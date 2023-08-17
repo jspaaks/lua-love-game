@@ -1,20 +1,17 @@
----@class PerfectScoreScreen # The PerfectScoreScreen
-local PerfectScoreScreen = {
-    ---@type string # class name
-    __name__ = "PerfectScoreScreen",
-}
+local Base = require "knife.base"
+
+---@class GameoverScreen
+local GameoverScreen = Base:extend()
 
 
----@return PerfectScoreScreen
-function PerfectScoreScreen:new()
-    local mt = { __index = PerfectScoreScreen }
-    local members = {}
-    return setmetatable(members, mt)
+---@return GameoverScreen
+function GameoverScreen:constructor()
+    return self
 end
 
 
----@return PerfectScoreScreen
-function PerfectScoreScreen:update()
+---@return GameoverScreen
+function GameoverScreen:update()
     if State.keypressed["q"] then
         love.event.quit(0)
     elseif State.keypressed["return"] then
@@ -25,8 +22,8 @@ function PerfectScoreScreen:update()
 end
 
 
----@return PerfectScoreScreen
-function PerfectScoreScreen:draw()
+---@return GameoverScreen
+function GameoverScreen:draw()
 
     --screen background elements
     State.ground:draw()
@@ -35,7 +32,7 @@ function PerfectScoreScreen:draw()
     -- screen title
     love.graphics.setColor(State.colors.white)
     love.graphics.setFont(State.fonts["title"])
-    love.graphics.printf("PERFECT SCORE", 0, 275, 1280, "center")
+    love.graphics.printf("GAME OVER", 0, 275, 1280, "center")
     love.graphics.setFont(State.fonts["small"])
     love.graphics.printf(State.screen:enter("playing").exit_reason, 0, 350, 1280, "center")
 
@@ -52,4 +49,4 @@ function PerfectScoreScreen:draw()
     return self
 end
 
-return PerfectScoreScreen
+return GameoverScreen

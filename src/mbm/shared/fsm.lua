@@ -1,56 +1,36 @@
-local check = require "check-self"
+local Base = require "knife.base"
 
 ---@class StateMachine
-local StateMachine = {
-    ---@type string
-    __name__ = "StateMachine",
-    ---@type table<"name"|"state",unknown>
-    current = {
-        name = nil,
-        state = nil
-    },
-    ---@type table<"name"|"state",unknown>[]
-    options = nil
-}
+local StateMachine = Base:extend()
 
 ---@return StateMachine
-function StateMachine:create(options)
-    check(self, StateMachine.__name__)
-    local mt = { __index = StateMachine }
+function StateMachine:constructor(options)
     assert(#options >= 1, "Need at least one state.")
     local names = {}
-    for _, option in ipairs(options) do
+    for i, option in ipairs(options) do
+        assert(options[i].name ~= nil, "Expected member 'name' in data passed to StateMachine's constructor.")
+        assert(options[i].state ~= nil, "Expected member 'state' in data passed to StateMachine's constructor.")
         assert(names[option.name] == nil, "Duplicate names in data passed to StateMachine constructor.")
         names[option.name] = true
-        for _, methodname in ipairs({"draw", "new", "update"}) do
+        for _, methodname in ipairs({"draw", "update"}) do
             local cond = option.state[methodname] ~= nil and type(option.state[methodname]) == "function"
             assert(cond, "One of the states supplied to StateMachine is missing a required method.")
         end
     end
-    local members = {
-        current = options[1],
-        options = options
-    }
-    return setmetatable(members, mt)
+    self.current = options[1]
+    self.options = options
+    return self
 end
 
 function StateMachine:draw()
-    check(self, StateMachine.__name__)
     self.current.state:draw()
 end
 
-function StateMachine:new()
-    check(self, StateMachine.__name__)
-    self.current.state:new()
-end
-
 function StateMachine:update(dt)
-    check(self, StateMachine.__name__)
     self.current.state:update(dt)
 end
 
 function StateMachine:change_to(tgtname)
-    check(self, StateMachine.__name__)
     local exists = false
     for _, option in ipairs(self.options) do
         if option.name == tgtname then
@@ -64,7 +44,6 @@ function StateMachine:change_to(tgtname)
 end
 
 function StateMachine:enter(tgtname)
-    check(self, StateMachine.__name__)
     local exists = false
     for _, option in ipairs(self.options) do
         if option.name == tgtname then

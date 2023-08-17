@@ -1,47 +1,29 @@
-local Balloon = require "screens.playing.balloon"
-local BalloonTypes = require "screens.playing.balloon-types"
-local check = require "check-self"
+local Base = require "knife.base"
+local Balloon = require "mbm.screens.playing.balloon"
+local BalloonTypes = require "mbm.screens.playing.balloon-types"
 
 
 ---@class Balloons           # The collection of balloons.
-local Balloons = {
-    ---@type string          # Class name
-    __name__ = "Balloons",
-    ---@type Balloon[] | nil # Array that holds the balloons
-    elements = nil,
-    ---@type table           # Classes of balloons and their properties
-    classes = BalloonTypes,
-    ---@type Ground | nil    # Reference to the Ground object
-    ground = nil,
-    ---@type number | nil    # Total number of balloons that spawn
-    nspawn = nil,
-    ---@type Balloon[] | nil # Array that holds the remaining balloons
-    remaining = nil,
-    ---@type number | nil    # How fast balloons are spawning
-    spawn_rate = nil
-}
+local Balloons = Base:extend()
 
 
 ---@param spawn_rate number  # how fast balloons are spawning
 ---@param ground Ground      # Reference to the Ground object
 ---@return Balloons
-function Balloons:new(spawn_rate, ground)
-    check(self, Balloons.__name__)
-    local mt = { __index = Balloons }
-    local members = {
-        elements = nil,
-        ground = ground,
-        nspawn = nil,
-        spawn_rate = spawn_rate
-    }
+function Balloons:constructor(spawn_rate, ground, nspawn)
+    self.classes = BalloonTypes
+    self.elements = {}
+    self.ground = ground
+    self.nspawn = nspawn or 100
+    self.spawn_rate = spawn_rate or 0.5
+    self.remaining = {}
     self:reset()
-    return setmetatable(members, mt)
+    return self
 end
 
 
 ---@return Balloons
 function Balloons:draw()
-    check(self, Balloons.__name__)
     for _, element in ipairs(self.elements) do
         element:draw()
     end
@@ -51,7 +33,6 @@ end
 
 ---@return Balloons
 function Balloons:mark_all_as_dead()
-    check(self, Balloons.__name__)
     for _, element in ipairs(self.elements) do
         element.alive = false
     end
@@ -70,7 +51,7 @@ function Balloons:reset()
             local y = State.ground.y + bt.radius
             local u = 0
             local v = -20
-            local balloon = Balloon:new(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
+            local balloon = Balloon(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
             table.insert(self.remaining, balloon)
         end
     end
@@ -87,7 +68,6 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Balloons
 function Balloons:update(dt)
-    check(self, Balloons.__name__)
     local width, _ = love.graphics.getDimensions()
 
     -- spawn balloons

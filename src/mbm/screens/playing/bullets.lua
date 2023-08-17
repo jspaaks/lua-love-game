@@ -1,41 +1,30 @@
-local Bullet = require "screens.playing.bullet"
-local check = require "check-self"
+local Bullet = require "mbm.screens.playing.bullet"
+local Base = require "knife.base"
+
 
 ---@class Bullets           # The collection of bullets.
-local Bullets = {
-    ---@type string         # class name
-    __name__ = "Bullets",
-    ---@type Bullet[] | nil # array that holds the bullets
-    elements = nil,
-    ---@type number         # how many bullets are remaining at the beginning of the run
-    nalotted = 12,
-    ---@type number | nil   # how many bullets are remaining
-    nremaining = nil,
-    ---@type number         # speed of the bullet
-    speed = 220,
-    ---@type Turret | nil   # where bullets are spawning
-    turret = nil
-}
+local Bullets = Base:extend()
 
 
 ---@param turret Turret # reference to Turret object
 ---@return Bullets
-function Bullets:new(turret)
-    check(self, Bullets.__name__)
-    local mt = { __index = Bullets }
-    local members = {
-        elements = nil,
-        turret = turret,
-        nremaining = nil
-    }
-    Bullets:reset()
-    return setmetatable(members, mt)
+function Bullets:constructor(turret)
+    ---@type Bullet[]       # array that holds the bullets
+    self.elements = {}
+    ---@type number         # how many bullets are remaining at the beginning of the run
+    self.nalotted = 12
+    ---@type number         # how many bullets are remaining
+    self.nremaining = self.nalotted
+    ---@type number         # speed of the bullet
+    self.speed = 220
+    ---@type Turret         # where bullets are spawning
+    self.turret = turret
+    return self
 end
 
 
 ---@return Bullets
 function Bullets:draw()
-    check(self, Bullets.__name__)
     for _, element in ipairs(self.elements) do
         element:draw()
     end
@@ -45,7 +34,6 @@ end
 
 ---@return Bullets
 function Bullets:mark_all_as_dead()
-    check(self, Bullets.__name__)
     for _, element in ipairs(self.elements) do
         element.alive = false
     end
@@ -64,8 +52,6 @@ end
 ---@param dt number # time elapsed since last frame (seconds)
 ---@return Bullets
 function Bullets:update(dt)
-    check(self, Bullets.__name__)
-
     -- spawn new bullet based on global keypressed state
     if State.keypressed["space"] then
         if self.nremaining > 0 then
@@ -73,7 +59,7 @@ function Bullets:update(dt)
             local v = math.sin(self.turret.angle) * self.speed
             local x = self.turret.x + math.cos(self.turret.angle) * self.turret.barrel.w
             local y = self.turret.y + math.sin(self.turret.angle) * self.turret.barrel.w
-            local element = Bullet:new(x, y, u, v)
+            local element = Bullet(x, y, u, v)
             table.insert(self.elements, element)
             self.turret.sounds.shot:clone():play()
             self.nremaining = self.nremaining - 1
