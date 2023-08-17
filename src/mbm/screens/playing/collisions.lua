@@ -1,44 +1,31 @@
-local check = require "mbm.shared.check-self"
+local Base = require "knife.base"
 local HitEffect = require "mbm.screens.playing.hit-effect"
 local HitScore = require "mbm.screens.playing.hit-score"
 local HitEffects = require "mbm.screens.playing.hit-effects"
 local HitScores = require "mbm.screens.playing.hit-scores"
 
----@class Collisions # The collection of hit effects.
-local Collisions = {
-    ---@type string # class name
-    __name__ = "Collisions",
-    ---@type Bullets | nil # Reference to the Bullets collection object
-    bullets = nil,
-    ---@type Balloons | nil # Reference to the Balloons collection object
-    balloons = nil,
-    ---@type HitEffects # Reference to the HitEffects collection
-    hit_effects = nil,
-    ---@type HitScores # Reference to the HitScores collection
-    hit_scores = nil,
-    ---@type number | nil # Number of Balloon instances that were hit
-    nhit = nil,
-}
+---@class Collisions                    # The collection of hit effects.
+local Collisions = Base:extend()
 
----@param bullets Bullets # Reference to the Bullets collection object
----@param balloons Balloons # Reference to the Balloons collection object
+---@param bullets Bullets               # Reference to the Bullets collection object
+---@param balloons Balloons             # Reference to the Balloons collection object
 ---@return Collisions
-function Collisions:new(bullets, balloons)
-    check(self, Collisions.__name__)
-    local mt = { __index = Collisions }
-    local members = {
-        bullets = bullets,
-        balloons = balloons,
-        hit_effects = HitEffects:new(),
-        hit_scores = HitScores:new(),
-        nhit = 0
-    }
-    return setmetatable(members, mt)
+function Collisions:constructor(bullets, balloons)
+    ---@type Bullets                    # Reference to the Bullets collection object
+    self.bullets = bullets
+    ---@type Balloons                   # Reference to the Balloons collection object
+    self.balloons = balloons
+---@type HitEffects                     # Reference to the HitEffects collection
+    self.hit_effects = HitEffects:new()
+    ---@type HitScores                  # Reference to the HitScores collection
+    self.hit_scores = HitScores:new()
+    ---@type number                     # Number of Balloon instances that were hit
+    self.nhit = 0
+    return self
 end
 
 ---@return Collisions
 function Collisions:update(dt)
-    check(self, Collisions.__name__)
 
     self.hit_effects:update(dt)
     self.hit_scores:update(dt)
@@ -73,7 +60,6 @@ end
 
 ---@return Collisions
 function Collisions:draw()
-    check(self, Collisions.__name__)
     self.hit_effects:draw()
     self.hit_scores:draw()
     return self

@@ -18,7 +18,7 @@ function PlayingScreen:constructor(ground)
     self.turret = Turret(ground)
     self.bullets = Bullets(self.turret)
     self.balloons = Balloons(balloons_spawn_rate, ground, nspawn)
-    self.collisions = Collisions:new(self.bullets, self.balloons)
+    self.collisions = Collisions(self.bullets, self.balloons)
     self.exit_reason = nil
     return self
 end
