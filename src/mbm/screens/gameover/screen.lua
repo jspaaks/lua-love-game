@@ -1,4 +1,6 @@
 local Base = require "knife.base"
+local Fps = require "mbm.shared.fps"
+
 
 ---@class GameoverScreen
 local GameoverScreen = Base:extend()
@@ -6,6 +8,7 @@ local GameoverScreen = Base:extend()
 
 ---@return GameoverScreen
 function GameoverScreen:constructor()
+    self.fps = Fps()
     return self
 end
 
@@ -18,6 +21,7 @@ function GameoverScreen:update()
         State.screen:enter("playing"):reset()
         State.screen:change_to("playing")
     end
+    self.fps:update()
     return self
 end
 
@@ -45,6 +49,9 @@ function GameoverScreen:draw()
     love.graphics.setFont(State.fonts["small"])
     local y = State.ground.y + State.ground.thickness * (1 / 2) - State.fonts.small:getHeight() / 2
     love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY AGAIN", 0, y, 1280, "center")
+
+    -- draw fps over everything else if need be
+    self.fps:draw()
 
     return self
 end

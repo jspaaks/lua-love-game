@@ -3,7 +3,7 @@ local Bullets = require "mbm.screens.playing.bullets"
 local Balloons = require "mbm.screens.playing.balloons"
 local Turret = require "mbm.screens.playing.turret"
 local Collisions = require "mbm.screens.playing.collisions"
-
+local Fps = require "mbm.shared.fps"
 
 ---@class PlayingScreen # The PlayingScreen
 local PlayingScreen = Base:extend()
@@ -19,6 +19,7 @@ function PlayingScreen:constructor(ground)
     self.bullets = Bullets(self.turret)
     self.balloons = Balloons(balloons_spawn_rate, ground, nspawn)
     self.collisions = Collisions(self.bullets, self.balloons)
+    self.fps = Fps()
     self.exit_reason = nil
     return self
 end
@@ -31,6 +32,7 @@ function PlayingScreen:update(dt)
     self.bullets:update(dt)
     self.balloons:update(dt)
     self.collisions:update(dt)
+    self.fps:update()
     local no_more_balloons = #self.balloons.remaining == 0 and #self.balloons.elements == 0
     local no_more_bullets = self.bullets.nremaining <= 0 and #self.bullets.elements == 0
     if no_more_balloons then
@@ -72,6 +74,10 @@ function PlayingScreen:draw()
     love.graphics.printf("S: TURRENT DOWN", 0, y1, 1280 / 2, "center")
     love.graphics.printf("ESC: PAUSE", 1280 / 2, y0, 1280 / 2, "center")
     love.graphics.printf("SPACE: SHOOT", 1280 / 2, y1, 1280 / 2, "center")
+
+    -- draw fps over everything else if need be
+    self.fps:draw()
+
     return self
 end
 

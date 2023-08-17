@@ -63,20 +63,11 @@ end
 
 function love.update(dt)
     State.screen:update(dt)
-    if State.keypressed["f"] then
-        State.showfps = not State.showfps
-    end
     State.keypressed = {}
 end
 
 function love.draw()
     State.screen:draw()
-    if State.showfps then
-        love.graphics.setFont(State.fonts.small)
-        love.graphics.setColor(1, 1, 0, 1)
-        local fps = string.format("FPS: %d", love.timer.getFPS())
-        love.graphics.print(fps, 20, 3 * 24)
-    end
 end
 
 function love.keypressed(key, scancode, isrepeat)
