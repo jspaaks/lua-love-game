@@ -18,7 +18,7 @@ function Collisions:constructor(bullets, balloons)
 ---@type HitEffects                     # Reference to the HitEffects collection
     self.hit_effects = HitEffects()
     ---@type HitScores                  # Reference to the HitScores collection
-    self.hit_scores = HitScores:new()
+    self.hit_scores = HitScores()
     ---@type number                     # Number of Balloon instances that were hit
     self.nhit = 0
     return self
