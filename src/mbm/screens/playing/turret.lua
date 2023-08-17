@@ -1,65 +1,55 @@
-local check = require "mbm.shared.check-self"
+local Base = require "knife.base"
 local clip = require "mbm.shared.clip"
 
+
 ---@class Turret # The Turret.
-local Turret = {
-    ---@type string # class name
-    __name__ = "Turret",
-    ---@type number | nil # Turret cannon angle
-    angle = 1.95 * math.pi,
-    ---@type number | nil # Turret cannon angle that's most up
-    angle_min = 1.6 * math.pi,
-    ---@type number | nil # Turret cannon angle that's most down
-    angle_max = 1.95 * math.pi,
-    ---@type number | nil # Turret cannon angle rate of change radians per second
-    angle_rate = 0.3,
-    ---@type number | nil # Turret cannon angle change direction
-    angle_direction = -1,
-    ---@type table # properties of the base
-    base = {
-        ---@type number | nil # width
-        w = 70,
-        ---@type number | nil # height
-        h = 25,
-    },
-    ---@type table # properties of the barrel
-    barrel = {
-        ---@type number | nil # width
-        w = 70,
-        ---@type number | nil # height
-        h = 14
-    },
-    ---@type number[] # Turret color
-    color = {50 / 255, 64 / 255, 46 / 255, 255 / 255},
-    ---@type Ground | nil # Reference to the Ground object
-    ground = nil,
-    ---@type number | nil # horizontal position
-    x = 180,
-    ---@type number | nil # vertical position
-    y = nil,
-    ---@type table<"shot"|"empty", love.Source> # Turret sounds
-    sounds = {
-        empty = love.audio.newSource("sounds/empty.wav", "static"),
-        shot = love.audio.newSource("sounds/shot.wav", "static"),
-    }
-}
+local Turret = Base:extend()
 
 ---@param ground Ground # reference to ground object
 ---@return Turret
-function Turret:new(ground)
-    check(self, Turret.__name__)
-    local mt = { __index = Turret }
-    local members = {
-        angle = self.angle_max,
-        ground = ground,
-        y = ground.y - self.base.h
+function Turret:constructor(ground)
+    ---@type number # Turret cannon angle that's most down
+    self.angle_max = 1.95 * math.pi
+    ---@type number # Turret cannon angle
+    self.angle = self.angle_max
+    ---@type number # Turret cannon angle that's most up
+    self.angle_min = 1.6 * math.pi
+    ---@type number # Turret cannon angle rate of change radians per second
+    self.angle_rate = 0.3
+    ---@type number # Turret cannon angle change direction
+    self.angle_direction = -1
+    ---@type table # properties of the base
+    self.base = {
+        ---@type number # width
+        w = 70,
+        ---@type number # height
+        h = 25,
     }
-    return setmetatable(members, mt)
+    ---@type table # properties of the barrel
+    self.barrel = {
+        ---@type number # width
+        w = 70,
+        ---@type number # height
+        h = 14
+    }
+    ---@type number[] # Turret color
+    self.color = {50 / 255, 64 / 255, 46 / 255, 255 / 255}
+    ---@type Ground # Reference to the Ground object
+    self.ground = ground
+    ---@type number # horizontal position
+    self.x = 180
+    ---@type number # vertical position
+    self.y = ground.y - self.base.h
+    ---@type table<"shot"|"empty", love.Source> # Turret sounds
+    self.sounds = {
+        empty = love.audio.newSource("sounds/empty.wav", "static"),
+        shot = love.audio.newSource("sounds/shot.wav", "static"),
+    }
+    return self
 end
 
 ---@return Turret
 function Turret:draw()
-    check(self, Turret.__name__)
     love.graphics.setColor(self.color)
     local x = self.x - self.base.w / 2
 
@@ -89,7 +79,6 @@ end
 
 ---@return Turret
 function Turret:update(dt)
-    check(self, Turret.__name__)
     self.y = self.ground.y - self.base.h
     if love.keyboard.isDown("w") then
         local new_angle = self.angle - self.angle_rate * dt

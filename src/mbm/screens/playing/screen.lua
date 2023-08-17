@@ -15,7 +15,7 @@ function PlayingScreen:constructor(ground)
     local balloons_spawn_rate = 0.5
     local nspawn = 100
     self.ground = ground
-    self.turret = Turret:new(ground)
+    self.turret = Turret(ground)
     self.bullets = Bullets:new(self.turret)
     self.balloons = Balloons(balloons_spawn_rate, ground, nspawn)
     self.collisions = Collisions:new(self.bullets, self.balloons)
