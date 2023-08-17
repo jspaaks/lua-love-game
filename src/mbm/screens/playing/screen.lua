@@ -12,12 +12,12 @@ local PlayingScreen = Base:extend()
 ---@return PlayingScreen
 ---@param ground Ground # reference to the Ground object
 function PlayingScreen:constructor(ground)
-
     local balloons_spawn_rate = 0.5
+    local nspawn = 100
     self.ground = ground
     self.turret = Turret:new(ground)
     self.bullets = Bullets:new(self.turret)
-    self.balloons = Balloons:new(balloons_spawn_rate, ground)
+    self.balloons = Balloons(balloons_spawn_rate, ground, nspawn)
     self.collisions = Collisions:new(self.bullets, self.balloons)
     self.exit_reason = nil
     return self
