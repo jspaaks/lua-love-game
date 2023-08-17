@@ -40,7 +40,7 @@ function Collisions:update(dt)
             if d1 < d2 then
                 local ratio = bullet.radius / (bullet.radius + balloon.radius)
                 for _ = 0, math.random(3, 7), 1 do
-                    local hit_effect = HitEffect:new(bullet.x + dx * ratio, bullet.y + dy * ratio)
+                    local hit_effect = HitEffect(bullet.x + dx * ratio, bullet.y + dy * ratio)
                     table.insert(self.hit_effects.elements, hit_effect)
                     local hit_score = HitScore:new(balloon.x, balloon.y - balloon.radius - 15, balloon.u + 5, balloon.v - 10, balloon.value)
                     table.insert(self.hit_scores.elements, hit_score)
