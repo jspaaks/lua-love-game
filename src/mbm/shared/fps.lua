@@ -12,7 +12,7 @@ function Fps:draw()
         love.graphics.setFont(State.fonts.small)
         love.graphics.setColor(1, 1, 0, 1)
         local fps = string.format("FPS: %d", love.timer.getFPS())
-        love.graphics.print(fps, 20, 3 * 24)
+        love.graphics.print(fps, 120, 10)
     end
 end
 
