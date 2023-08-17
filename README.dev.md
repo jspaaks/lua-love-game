@@ -4,6 +4,9 @@
 - love2d version: 11.3
 - sound effects from [https://sfxr.me/](https://sfxr.me/)
 
+## Dependencies
+
+1. knife: [https://github.com/airstruck/knife](https://github.com/airstruck/knife) (added as a git submodule)
 
 ## Ideas
 
