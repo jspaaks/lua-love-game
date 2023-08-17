@@ -1,5 +1,5 @@
-local Bullet = require "screens.playing.bullet"
-local check = require "check-self"
+local Bullet = require "mbm.screens.playing.bullet"
+local check = require "mbm.shared.check-self"
 
 ---@class Bullets           # The collection of bullets.
 local Bullets = {

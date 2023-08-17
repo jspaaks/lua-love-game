@@ -1,6 +1,6 @@
-local Balloon = require "screens.playing.balloon"
-local BalloonTypes = require "screens.playing.balloon-types"
-local check = require "check-self"
+local Balloon = require "mbm.screens.playing.balloon"
+local BalloonTypes = require "mbm.screens.playing.balloon-types"
+local check = require "mbm.shared.check-self"
 
 
 ---@class Balloons           # The collection of balloons.

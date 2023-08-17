@@ -1,4 +1,4 @@
-local check = require "check-self"
+local check = require "mbm.shared.check-self"
 
 ---@class HitScores # The collection of hit scores.
 local HitScores = {

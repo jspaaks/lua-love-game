@@ -1,7 +1,7 @@
-local Bullets = require "screens.playing.bullets"
-local Balloons = require "screens.playing.balloons"
-local Turret = require "screens.playing.turret"
-local Collisions = require "screens.playing.collisions"
+local Bullets = require "mbm.screens.playing.bullets"
+local Balloons = require "mbm.screens.playing.balloons"
+local Turret = require "mbm.screens.playing.turret"
+local Collisions = require "mbm.screens.playing.collisions"
 
 
 ---@class PlayingScreen # The PlayingScreen

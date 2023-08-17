@@ -1,8 +1,8 @@
-local check = require "check-self"
-local HitEffect = require "screens.playing.hit-effect"
-local HitScore = require "screens.playing.hit-score"
-local HitEffects = require "screens.playing.hit-effects"
-local HitScores = require "screens.playing.hit-scores"
+local check = require "mbm.shared.check-self"
+local HitEffect = require "mbm.screens.playing.hit-effect"
+local HitScore = require "mbm.screens.playing.hit-score"
+local HitEffects = require "mbm.screens.playing.hit-effects"
+local HitScores = require "mbm.screens.playing.hit-scores"
 
 ---@class Collisions # The collection of hit effects.
 local Collisions = {

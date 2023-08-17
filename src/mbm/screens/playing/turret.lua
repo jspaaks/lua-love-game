@@ -1,5 +1,5 @@
-local check = require "check-self"
-local clip = require "clip"
+local check = require "mbm.shared.check-self"
+local clip = require "mbm.shared.clip"
 
 ---@class Turret # The Turret.
 local Turret = {

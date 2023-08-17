@@ -1,13 +1,13 @@
 require "love"
-local Fsm = require "fsm"
-local Ground = require "ground"
-local Moon = require "moon"
-local StartScreen = require "screens.start.screen"
-local PlayingScreen = require "screens.playing.screen"
-local PausedScreen = require "screens.paused.screen"
-local GameoverScreen = require "screens.gameover.screen"
-local PerfectScoreScreen = require "screens.perfectscore.screen"
-local Legend = require "legend"
+local Fsm = require "mbm.shared.fsm"
+local Ground = require "mbm.shared.ground"
+local Moon = require "mbm.shared.moon"
+local StartScreen = require "mbm.screens.start.screen"
+local PlayingScreen = require "mbm.screens.playing.screen"
+local PausedScreen = require "mbm.screens.paused.screen"
+local GameoverScreen = require "mbm.screens.gameover.screen"
+local PerfectScoreScreen = require "mbm.screens.perfectscore.screen"
+local Legend = require "mbm.shared.legend"
 
 State = {}
 
@@ -58,7 +58,7 @@ function love.load()
             state = PerfectScoreScreen:new()
         }
     })
-    State.legend = Legend:new()
+    State.legend = Legend()
 end
 
 function love.update(dt)
