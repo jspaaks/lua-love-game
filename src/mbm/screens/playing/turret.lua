@@ -10,10 +10,10 @@ local Turret = Base:extend()
 function Turret:constructor(ground)
     ---@type number # Turret cannon angle that's most down
     self.angle_max = 1.95 * math.pi
-    ---@type number # Turret cannon angle
-    self.angle = self.angle_max
     ---@type number # Turret cannon angle that's most up
     self.angle_min = 1.6 * math.pi
+    ---@type number # Turret cannon angle
+    self.angle = self.angle_min + (self.angle_max - self.angle_min) * 0.8
     ---@type number # Turret cannon angle rate of change radians per second
     self.angle_rate = 0.3
     ---@type number # Turret cannon angle change direction
@@ -58,6 +58,11 @@ function Turret:draw()
 
     -- turret
     love.graphics.arc("fill", x + self.base.w / 2, self.y, self.base.w / 2, math.pi, 2 * math.pi, 20)
+
+    love.graphics.setLineWidth(6)
+    love.graphics.setColor(love.graphics.getBackgroundColor())
+    local extra_angle = 0.058 * math.pi
+    love.graphics.arc("line", "open", x + self.base.w / 2, self.y, self.base.w / 2, self.angle_min - extra_angle, self.angle_max + extra_angle, 20)
 
     -- cannon
     love.graphics.setColor(self.color)

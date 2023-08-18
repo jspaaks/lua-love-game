@@ -10,11 +10,9 @@
 
 ## Ideas
 
-- levels
-- more starting bullets in earlier levels than later levels
-- fewer spawned balloons in earlier levels than later levels
 - earn special munitions like proximity fuse, cluster, airstrike, helicopter gunship, suicide a-bomb
 - wind effect, layered
 - small random variation in balloon's x and y
 - hiscore table
 - add objects that you can't hit, e.g. birds
+- add berserker level balloons=1000, bullets=10

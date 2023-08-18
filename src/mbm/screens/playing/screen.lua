@@ -3,7 +3,6 @@ local Bullets = require "mbm.screens.playing.bullets"
 local Balloons = require "mbm.screens.playing.balloons"
 local Turret = require "mbm.screens.playing.turret"
 local Collisions = require "mbm.screens.playing.collisions"
-local Fps = require "mbm.shared.fps"
 
 ---@class PlayingScreen # The PlayingScreen
 local PlayingScreen = Base:extend()
@@ -11,40 +10,90 @@ local PlayingScreen = Base:extend()
 
 ---@return PlayingScreen
 ---@param ground Ground # reference to the Ground object
-function PlayingScreen:constructor(ground)
+function PlayingScreen:constructor(ground, level)
     local balloons_spawn_rate = 0.5
-    local nspawn = 100
+    local nspawn = 10
+    local nbullets = 100
     self.ground = ground
     self.turret = Turret(ground)
-    self.bullets = Bullets(self.turret)
+    self.bullets = Bullets(self.turret, nbullets)
     self.balloons = Balloons(balloons_spawn_rate, ground, nspawn)
     self.collisions = Collisions(self.bullets, self.balloons)
-    self.fps = Fps()
-    self.exit_reason = nil
+    self.level = level or "novice"
+    self.levels = {
+        novice = {
+            nalotted = 100,
+            nspawn = 10,
+            next = "private"
+        },
+        private = {
+            nalotted = 70,
+            nspawn = 20,
+            next = "gunny"
+        },
+        gunny = {
+            nalotted = 40,
+            nspawn = 40,
+            next = "sharpshooter"
+        },
+        sharpshooter = {
+            nalotted = 20,
+            nspawn = 70,
+            next = "assassin"
+        },
+        assassin = {
+            nalotted = 10,
+            nspawn = 100,
+            next = "berserker"
+        },
+        berserker = {
+            nalotted = 10,
+            nspawn = 1000,
+            next = "berserker"
+        }
+    }
     return self
 end
 
 ---@return PlayingScreen
 function PlayingScreen:update(dt)
     State.ground:update()
-    State.legend:update(dt)
     self.turret:update(dt)
     self.bullets:update(dt)
     self.balloons:update(dt)
     self.collisions:update(dt)
-    self.fps:update()
-    local no_more_balloons = #self.balloons.remaining == 0 and #self.balloons.elements == 0
-    local no_more_bullets = self.bullets.nremaining <= 0 and #self.bullets.elements == 0
-    if no_more_balloons then
-        self.exit_reason = "No more balloons"
-        if self.collisions.nhit == self.balloons.nspawn then
-            State.screen:change_to("perfectscore")
+    State.legend:update(dt)
+    State.level_indicator:update()
+    State.fps:update()
+
+    local out_of_bullets = self.bullets.nremaining <= 0 and #self.bullets.elements == 0
+    local no_more_balloons = #self.balloons.remaining <= 0 and #self.balloons.elements <= 0
+    if out_of_bullets or no_more_balloons then
+        local title = nil
+        local next_level = nil
+        local nhit = self.collisions.nhit
+        local nspawn = self.balloons.nspawn
+        if nhit == nspawn then
+            title = "PERFECT SCORE!"
+            next_level = self.levels[self.level].next
+        elseif nhit / nspawn >= 0.9 then
+            title = "GREAT JOB!"
+            next_level = self.levels[self.level].next
+        elseif nhit / nspawn >= 0.8 then
+            title = "GOOD JOB!"
+            next_level = self.levels[self.level].next
         else
-            State.screen:change_to("gameover")
+            title = "TRY AGAIN"
+            next_level = self.level
         end
-    elseif no_more_bullets then
-        self.exit_reason = "Out of bullets"
-        State.screen:change_to("gameover")
+        self.balloons.elements = {}
+        self.balloons.remaining = {}
+        State.screen:enter("levelfinished"):reset({
+            ["exit_reason"] = #self.balloons.remaining > 0 and "Out of bullets" or "No more balloons",
+            ["title"] = title,
+            ["next_level"] = next_level
+        })
+        State.screen:change_to("levelfinished")
     elseif State.keypressed["escape"] then
         State.screen:change_to("paused")
     end
@@ -53,6 +102,9 @@ end
 
 ---@return PlayingScreen
 function PlayingScreen:draw()
+
+    -- balloons and level indicator
+    State.level_indicator:draw()
 
     -- screen elements
     State.moon:draw()
@@ -76,16 +128,23 @@ function PlayingScreen:draw()
     love.graphics.printf("SPACE: SHOOT", 1280 / 2, y1, 1280 / 2, "center")
 
     -- draw fps over everything else if need be
-    self.fps:draw()
+    State.fps:draw()
 
     return self
 end
 
-function PlayingScreen:reset()
-    self.balloons:reset()
-    self.bullets:reset()
+function PlayingScreen:reset(params)
+    if params ~= nil then
+        self.level = params.level or self.level
+    end
+    self.balloons:reset({nspawn = self.levels[self.level].nspawn})
+    self.bullets:reset({nalotted = self.levels[self.level].nalotted})
     self.collisions:reset()
     self.turret:reset()
+    State.level_indicator:reset({
+        level = self.level,
+        nballoons = #self.balloons.elements + #self.balloons.remaining
+    })
 end
 
 return PlayingScreen

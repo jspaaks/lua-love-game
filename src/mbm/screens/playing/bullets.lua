@@ -8,11 +8,11 @@ local Bullets = Base:extend()
 
 ---@param turret Turret # reference to Turret object
 ---@return Bullets
-function Bullets:constructor(turret)
+function Bullets:constructor(turret, nalotted)
     ---@type Bullet[]       # array that holds the bullets
     self.elements = {}
     ---@type number         # how many bullets are remaining at the beginning of the run
-    self.nalotted = 12
+    self.nalotted = nalotted or 100
     ---@type number         # how many bullets are remaining
     self.nremaining = self.nalotted
     ---@type number         # speed of the bullet
@@ -42,7 +42,10 @@ end
 
 
 ---@return Bullets
-function Bullets:reset()
+function Bullets:reset(params)
+    if params ~= nil then
+        self.nalotted = params.nalotted or 103
+    end
     self.elements = {}
     self.nremaining = self.nalotted
     return self

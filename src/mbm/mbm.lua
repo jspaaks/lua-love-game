@@ -5,11 +5,14 @@ local Moon = require "mbm.shared.moon"
 local StartScreen = require "mbm.screens.start.screen"
 local PlayingScreen = require "mbm.screens.playing.screen"
 local PausedScreen = require "mbm.screens.paused.screen"
-local GameoverScreen = require "mbm.screens.gameover.screen"
-local PerfectScoreScreen = require "mbm.screens.perfectscore.screen"
+local LevelFinishedScreen = require "mbm.screens.level-finished.screen"
 local Legend = require "mbm.shared.legend"
+local LevelIndicator = require "mbm.shared.level-indicator"
+local Fps = require "mbm.shared.fps"
+
 
 State = {}
+
 
 function love.load()
     math.randomseed(os.time())
@@ -24,7 +27,7 @@ function love.load()
         small = love.graphics.newFont("fonts/Bayon-Regular.ttf", 24)
     }
     State.keypressed = {}
-    State.showfps = false
+    State.fps = Fps()
     State.colors = {
         ["magenta"] = {200 / 255, 0, 161 / 255, 1},
         ["red"] = {200 / 255, 0, 0, 1},
@@ -36,6 +39,7 @@ function love.load()
     }
     State.moon = Moon()
     State.ground = Ground(ground_thickness)
+    State.level_indicator = LevelIndicator()
     State.screen = Fsm({
         {
             name = "start",
@@ -50,13 +54,9 @@ function love.load()
             state = PausedScreen()
         },
         {
-            name = "gameover",
-            state = GameoverScreen()
+            name = "levelfinished",
+            state = LevelFinishedScreen()
         },
-        {
-            name = "perfectscore",
-            state = PerfectScoreScreen()
-        }
     })
     State.legend = Legend()
 end

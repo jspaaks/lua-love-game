@@ -4,11 +4,12 @@ local Fps = Base:extend()
 
 
 function Fps:constructor()
+    self.fps = false
 end
 
 
 function Fps:draw()
-    if State.showfps then
+    if self.showfps then
         love.graphics.setFont(State.fonts.small)
         love.graphics.setColor(1, 1, 0, 1)
         local fps = string.format("FPS: %d", love.timer.getFPS())
@@ -19,7 +20,7 @@ end
 
 function Fps:update()
     if State.keypressed["f"] then
-        State.showfps = not State.showfps
+        self.showfps = not self.showfps
     end
 end
 

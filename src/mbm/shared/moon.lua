@@ -28,8 +28,8 @@ function Moon:draw()
     local bgcolor = { 0 / 255, 22 / 255, 43 / 255, 255 / 255 }
     love.graphics.setColor(bgcolor)
     local x2 = width - self.from_right - self.radius * 0.25
-    local y2 = self.from_top - self.radius * 0.25
-    love.graphics.circle("fill", x2, y2, self.radius)
+    local y2 = self.from_top - self.radius * 0.15
+    love.graphics.circle("fill", x2, y2, self.radius * 0.95 )
 end
 
 return Moon

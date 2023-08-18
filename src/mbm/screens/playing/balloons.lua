@@ -11,10 +11,11 @@ local Balloons = Base:extend()
 ---@param ground Ground      # Reference to the Ground object
 ---@return Balloons
 function Balloons:constructor(spawn_rate, ground, nspawn)
+    assert(nspawn % 10 == 0, "nspawn should be a multiple of 10")
     self.classes = BalloonTypes
     self.elements = {}
     self.ground = ground
-    self.nspawn = nspawn or 100
+    self.nspawn = nspawn or 10
     self.spawn_rate = spawn_rate or 0.5
     self.remaining = {}
     self:reset()
@@ -41,18 +42,23 @@ end
 
 
 ---@return Balloons
-function Balloons:reset()
+function Balloons:reset(params)
+    if params ~= nil then
+        self.nspawn = params.nspawn or self.nspawn
+    end
     self.elements = {}
     self.remaining = {}
     local width, _ = love.graphics.getDimensions()
     for _, bt in ipairs(BalloonTypes) do
-        for _ = 1, bt.n, 1 do
-            local x = width - 640 + math.random(0, 7) * 70
-            local y = State.ground.y + bt.radius
-            local u = 0
-            local v = -20
-            local balloon = Balloon(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
-            table.insert(self.remaining, balloon)
+        for _ = 1, self.nspawn / 10 do
+            for _ = 1, bt.tenths do
+                local x = width - 640 + math.random(0, 7) * 70
+                local y = State.ground.y + bt.radius
+                local u = 0
+                local v = -20
+                local balloon = Balloon(x, y, u, v, bt.color, bt.radius, bt.sounds, bt.value)
+                table.insert(self.remaining, balloon)
+            end
         end
     end
     -- randomize the table
@@ -60,7 +66,6 @@ function Balloons:reset()
         local j = math.random(i)
         self.remaining[i], self.remaining[j] = self.remaining[j], self.remaining[i]  -- shuffle i and j
     end
-    self.nspawn = #self.remaining
     return self
 end
 

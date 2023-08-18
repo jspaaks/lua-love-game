@@ -11,16 +11,22 @@ local Collisions = Base:extend()
 ---@param balloons Balloons             # Reference to the Balloons collection object
 ---@return Collisions
 function Collisions:constructor(bullets, balloons)
+
     ---@type Bullets                    # Reference to the Bullets collection object
     self.bullets = bullets
+
     ---@type Balloons                   # Reference to the Balloons collection object
     self.balloons = balloons
----@type HitEffects                     # Reference to the HitEffects collection
+
+    ---@type HitEffects                 # Reference to the HitEffects collection
     self.hit_effects = HitEffects()
+
     ---@type HitScores                  # Reference to the HitScores collection
     self.hit_scores = HitScores()
+
     ---@type number                     # Number of Balloon instances that were hit
     self.nhit = 0
+
     return self
 end
 

@@ -1,5 +1,4 @@
 local Base = require "knife.base"
-local Fps = require "mbm.shared.fps"
 
 
 ---@class StartScreen
@@ -8,7 +7,14 @@ local StartScreen = Base:extend()
 
 ---@return StartScreen
 function StartScreen:constructor()
-    self.fps = Fps()
+    self.fonts = {
+        small = love.graphics.newFont("fonts/Bayon-Regular.ttf", 70),
+        big = love.graphics.newFont("fonts/Bayon-Regular.ttf", 80)
+    }
+    self.y0 = 300           -- top line
+    self.y1 = self.y0 - 36  -- big font
+    self.y2 = self.y0 - 31  -- small font
+    self.y3 = self.y0 + 62  -- bottom line
     return self
 end
 
@@ -17,8 +23,9 @@ end
 function StartScreen:update()
     State.ground:update()
     State.moon:update()
-    self.fps:update()
+    State.fps:update()
     if State.keypressed["return"] then
+        State.screen:enter("playing"):reset({level = "novice"})
         State.screen:change_to("playing")
     elseif State.keypressed["q"] then
         love.event.quit(0)
@@ -34,9 +41,15 @@ function StartScreen:draw()
     State.moon:draw()
 
     -- screen title
-    love.graphics.setColor(State.colors.white)
-    love.graphics.setFont(State.fonts["title"])
-    love.graphics.printf("MIDNIGHT BALLOON MURDER", 0, 275, 1280, "center")
+    love.graphics.setColor(State.colors.lightgray)
+    love.graphics.setLineWidth(2)
+    love.graphics.line(298, self.y0, 975, self.y0)
+    love.graphics.line(341, self.y3, 938, self.y3)
+    love.graphics.setFont(self.fonts.big)
+    love.graphics.print("M", 295, self.y1)
+    love.graphics.print("R", 940, self.y1)
+    love.graphics.setFont(self.fonts.small)
+    love.graphics.printf("IDNIGHT BALLOON MURDE", 0, self.y2, 1280, "center")
 
     -- options to continue
     love.graphics.setColor(State.colors.lightgray)
@@ -45,7 +58,7 @@ function StartScreen:draw()
     love.graphics.printf("Q TO QUIT  /  ENTER TO PLAY", 0, y, 1280, "center")
 
     -- draw fps over everything else if need be
-    self.fps:draw()
+    State.fps:draw()
 
     return self
 end

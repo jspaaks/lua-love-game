@@ -51,7 +51,7 @@ function StateMachine:enter(tgtname)
             return option.state
         end
     end
-    assert(exists, "StateMachine instance does not have a state '" .. tgtname .. "' to change to.")
+    assert(exists, "StateMachine instance does not have a state '" .. tgtname .. "' to enter into.")
     return nil
 end
 
