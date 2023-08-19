@@ -10,4 +10,9 @@ And note
 
 ]]--
 
-require "mbm.mbm"
+if pcall(require, "mbm.mbm") then
+    -- pass
+else
+    print("Game source files not found -- see instructions on how to set the path.")
+    love.event.quit(1)
+end
