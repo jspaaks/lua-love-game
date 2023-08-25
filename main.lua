@@ -10,9 +10,12 @@ And note
 
 ]]--
 
-if pcall(require, "mbm.mbm") then
-    -- pass
-else
-    print("Game source files not found -- see instructions on how to set the path.")
+local status_ok, errobj = pcall(require, "mbm.mbm")
+if not status_ok then
+    if string.find(tostring(errobj), "module 'mbm.mbm' not found") then
+        print("Game source files not found -- see instructions on how to set the path.")
+    else
+        print(errobj)
+    end
     love.event.quit(1)
 end

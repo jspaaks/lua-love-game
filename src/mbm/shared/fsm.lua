@@ -19,6 +19,7 @@ function StateMachine:constructor(options)
     end
     self.current = options[1]
     self.options = options
+    self.tgtname = nil
     return self
 end
 
@@ -34,9 +35,9 @@ function StateMachine:change_to(tgtname)
     local exists = false
     for _, option in ipairs(self.options) do
         if option.name == tgtname then
-            exists = true
             self.current = option
-            break
+            exists = true
+            return self
         end
     end
     assert(exists, "StateMachine instance does not have a state '" .. tgtname .. "' to change to.")
@@ -47,6 +48,7 @@ function StateMachine:enter(tgtname)
     local exists = false
     for _, option in ipairs(self.options) do
         if option.name == tgtname then
+            self.tgtname = tgtname
             exists = true
             return option.state
         end

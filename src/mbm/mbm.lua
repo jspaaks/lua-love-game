@@ -6,6 +6,8 @@ local StartScreen = require "mbm.screens.start.screen"
 local PlayingScreen = require "mbm.screens.playing.screen"
 local PausedScreen = require "mbm.screens.paused.screen"
 local LevelFinishedScreen = require "mbm.screens.level-finished.screen"
+local EnterNameScreen = require "mbm.screens.enter-name.screen"
+local HiscoresScreen = require "mbm.screens.hiscores.screen"
 local Legend = require "mbm.shared.legend"
 local LevelIndicator = require "mbm.shared.level-indicator"
 local Fps = require "mbm.shared.fps"
@@ -54,11 +56,21 @@ function love.load()
             state = PausedScreen()
         },
         {
-            name = "levelfinished",
+            name = "level-finished",
             state = LevelFinishedScreen()
         },
+        {
+            name = "hiscores",
+            state = HiscoresScreen()
+        },
+        {
+            name = "enter-name",
+            state = EnterNameScreen()
+        }
     })
+    State.screen:change_to("start")
     State.legend = Legend()
+    State.playername = nil
 end
 
 function love.update(dt)

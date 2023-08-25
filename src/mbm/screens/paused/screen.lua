@@ -22,6 +22,11 @@ function PausedScreen:update()
         State.screen:change_to("playing")
     elseif State.keypressed["q"] then
         love.event.quit(0)
+    elseif State.keypressed["h"] then
+        State.screen:enter("hiscores"):reset({
+            after = "paused"
+        })
+        State.screen:change_to("hiscores")
     end
     return self
 end
@@ -56,5 +61,12 @@ function PausedScreen:draw()
 
     return self
 end
+
+
+---@return PausedScreen
+function PausedScreen:reset()
+    return self
+end
+
 
 return PausedScreen

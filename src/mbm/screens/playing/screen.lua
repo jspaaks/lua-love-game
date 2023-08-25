@@ -73,6 +73,7 @@ function PlayingScreen:update(dt)
         local next_level = nil
         local nhit = self.collisions.nhit
         local nspawn = self.balloons.nspawn
+
         if nhit == nspawn then
             title = "PERFECT SCORE!"
             next_level = self.levels[self.level].next
@@ -88,12 +89,14 @@ function PlayingScreen:update(dt)
         end
         self.balloons.elements = {}
         self.balloons.remaining = {}
-        State.screen:enter("levelfinished"):reset({
-            ["exit_reason"] = #self.balloons.remaining > 0 and "Out of bullets" or "No more balloons",
+        State.screen:enter("level-finished"):reset({
+            ["exit_reason"] = no_more_balloons and "No more balloons" or "Out of bullets",
             ["title"] = title,
-            ["next_level"] = next_level
+            ["next_level"] = next_level,
+            ["nhit"] = nhit,
+            ["is_hiscore"] = State.screen:enter("hiscores").lowest < nhit
         })
-        State.screen:change_to("levelfinished")
+        State.screen:change_to("level-finished")
     elseif State.keypressed["escape"] then
         State.screen:change_to("paused")
     end

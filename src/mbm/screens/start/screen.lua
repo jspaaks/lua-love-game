@@ -29,6 +29,11 @@ function StartScreen:update()
         State.screen:change_to("playing")
     elseif State.keypressed["q"] then
         love.event.quit(0)
+    elseif State.keypressed["h"] then
+        State.screen:enter("hiscores"):reset({
+            after = "start"
+        })
+        State.screen:change_to("hiscores")
     end
     return self
 end
@@ -60,6 +65,12 @@ function StartScreen:draw()
     -- draw fps over everything else if need be
     State.fps:draw()
 
+    return self
+end
+
+
+---@return StartScreen
+function StartScreen:reset()
     return self
 end
 
